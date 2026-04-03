@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>THE CUT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08080b;--bg2:#111116;--bg3:#19191f;
+  --bdr:#222230;--bdr2:#2a2a38;
+  --t1:#ededf0;--t2:#9898a8;--t3:#58586a;--t4:#38384a;
+  --blue:#4d8ff7;--blue-d:rgba(77,143,247,.1);
+  --green:#2dd4a0;--green-d:rgba(45,212,160,.1);
+  --red:#f06060;--red-d:rgba(240,96,96,.1);
+  --amber:#ebb84d;--amber-d:rgba(235,184,77,.1);
+  --purple:#a78bfa;--purple-d:rgba(167,139,250,.1);
+  --cyan:#22d3ee;--cyan-d:rgba(34,211,238,.1);
+}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--t1);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* LAYOUT */
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 80px}
+
+/* HEADER */
+.hdr{text-align:center;padding:48px 0 8px;position:relative}
+.hdr::after{content:'';display:block;width:60px;height:1px;background:var(--bdr2);margin:20px auto 0}
+.hdr h1{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(28px,6vw,40px);font-weight:700;
+  letter-spacing:10px;
+  color:var(--t1);
+}
+.hdr .sub{font-size:12px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;margin-top:6px}
+.hdr .dates{font-size:11px;color:var(--t4);margin-top:2px;font-family:'JetBrains Mono',monospace}
+
+/* SUMMARIES */
+.summary-box{
+  padding:16px 18px;margin-bottom:12px;
+  background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;
+}
+.summary-label{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;
+}
+.summary-text{
+  font-size:13px;line-height:1.6;color:var(--t2);
+}
+
+/* ANALYSIS */
+.analysis-section{display:none;margin-bottom:16px}
+.analysis-section.on{display:block}
+.analysis-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t4);margin-bottom:10px}
+.analysis-tabs{margin-bottom:14px}
+.analysis-content{}
+.analysis-item{margin-bottom:14px;padding:14px 16px;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px}
+.analysis-item:last-child{margin-bottom:0}
+.analysis-item-title{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--t1);margin-bottom:6px}
+.analysis-item-text{font-size:13px;line-height:1.6;color:var(--t2)}
+
+/* PROGRESS */
+.prog{margin:28px 0 24px;padding:20px;background:var(--bg2);border:1px solid var(--bdr);border-radius:14px}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.prog-top .lab{font-size:12px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.prog-top .val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--blue)}
+.prog-track{width:100%;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),#7cb3ff);transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.prog-bot{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--t4);font-family:'JetBrains Mono',monospace}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:14px 16px}
+.sc .lab{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.sc .val{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.15}
+.sc .sub{font-size:11px;color:var(--t3);margin-top:3px}
+.sc .tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:5px;font-family:'JetBrains Mono',monospace}
+.tag-g{color:var(--green);background:var(--green-d)}
+.tag-r{color:var(--red);background:var(--red-d)}
+.tag-a{color:var(--amber);background:var(--amber-d)}
+.tag-b{color:var(--blue);background:var(--blue-d)}
+
+/* TABS */
+.tabs{display:flex;gap:3px;padding:3px;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs button{
+  flex:1;min-width:70px;padding:9px 10px;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  color:var(--t3);background:none;border:none;border-radius:7px;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.tabs button.on{background:var(--blue-d);color:var(--blue);font-weight:600}
+.tabs button:hover:not(.on){color:var(--t2);background:rgba(255,255,255,.02)}
+
+/* CHART PANELS */
+.panel{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:20px;margin-bottom:16px;display:none}
+.panel.on{display:block}
+.panel-t{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.panel-t-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.panel-t-row .panel-t{margin-bottom:0}
+.proj-toggles{display:flex;gap:4px}
+.proj-tog{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--t3);background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;
+  cursor:pointer;transition:all .15s;
+}
+.proj-tog.on{color:var(--t1);border-color:var(--bdr2)}
+.proj-tog:not(.on){opacity:.4}
+.tog-dot{width:7px;height:7px;border-radius:50%}
+.tog-dot.bf{background:var(--purple)}
+.tog-dot.wt{background:var(--blue)}
+.tog-dot.energy{background:var(--amber)}
+.chart-box{position:relative;width:100%;aspect-ratio:2.2/1}
+@media(max-width:600px){.chart-box{aspect-ratio:1.5/1}}
+
+/* WEEKLY TABLE */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;margin-bottom:16px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
+.tbl th{
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);
+  text-transform:uppercase;letter-spacing:1px;
+  padding:12px 10px;text-align:left;border-bottom:1px solid var(--bdr);
+  white-space:nowrap;position:sticky;top:0;background:var(--bg2);
+}
+.tbl td{padding:10px;border-bottom:1px solid rgba(34,34,48,.4);font-variant-numeric:tabular-nums;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl .cur td{background:var(--blue-d)}
+.tbl .num{text-align:right}
+
+/* DAILY LOG */
+.expand-toggle{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:12px;
+  background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;
+  color:var(--blue);font-size:12px;font-family:'JetBrains Mono',monospace;
+  letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;margin-bottom:16px;
+}
+.expand-toggle:hover{color:var(--t1);border-color:var(--bdr2)}
+.expand-toggle .arrow{transition:transform .2s}
+.expand-toggle.open .arrow{transform:rotate(180deg)}
+.daily-log{display:none;margin-bottom:16px}
+.daily-log.on{display:block}
+.weekly-log{display:none;margin-bottom:16px}
+.weekly-log.on{display:block}
+.weekly-standalone{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:20px;margin-bottom:16px}
+
+/* More columns toggle - styled like chart toggles */
+.more-tog{
+  display:none;align-items:center;gap:5px;
+  padding:5px 10px;margin-top:10px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--t3);background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;
+  cursor:pointer;transition:all .15s;
+}
+.more-tog:hover{color:var(--t1);border-color:var(--bdr2)}
+.more-tog.on{color:var(--blue);border-color:var(--bdr2)}
+
+/* Mobile column hiding - CSS + body class fallback */
+@media(max-width:900px){.more-tog{display:inline-flex}}
+body.is-mobile .more-tog{display:inline-flex}
+
+@media(max-width:900px){
+  .daily-tbl .col-hide{display:none}
+  .daily-tbl.show-more .col-hide{display:table-cell}
+  .tbl .col-hide{display:none}
+  .tbl.show-more .col-hide{display:table-cell}
+}
+body.is-mobile .daily-tbl .col-hide{display:none}
+body.is-mobile .daily-tbl.show-more .col-hide{display:table-cell}
+body.is-mobile .tbl .col-hide{display:none}
+body.is-mobile .tbl.show-more .col-hide{display:table-cell}
+
+/* Sticky table headers with scroll container */
+.tbl-scroll{max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.tbl-scroll thead th{position:sticky;top:0;z-index:2}
+.daily-scroll{max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.daily-scroll .daily-tbl th{position:sticky;top:0;z-index:2}
+
+/* Mobile table fixes */
+@media(max-width:900px){
+  .daily-tbl{min-width:0!important}
+  .tbl{min-width:0!important}
+  .daily-tbl th,.daily-tbl td{padding:8px 6px;font-size:10px}
+  .tbl th,.tbl td{padding:8px 6px;font-size:11px}
+}
+body.is-mobile .daily-tbl{min-width:0!important}
+body.is-mobile .tbl{min-width:0!important}
+body.is-mobile .daily-tbl th,body.is-mobile .daily-tbl td{padding:8px 6px;font-size:10px}
+body.is-mobile .tbl th,body.is-mobile .tbl td{padding:8px 6px;font-size:11px}
+.daily-tbl{width:100%;border-collapse:collapse;font-size:11px;min-width:780px}
+.daily-tbl th{
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);
+  text-transform:uppercase;letter-spacing:1px;
+  padding:10px 8px;text-align:left;border-bottom:1px solid var(--bdr);
+  white-space:nowrap;position:sticky;top:0;background:var(--bg2);
+}
+.daily-tbl td{padding:8px;border-bottom:1px solid rgba(34,34,48,.3);font-variant-numeric:tabular-nums;font-family:'JetBrains Mono',monospace;font-size:11px}
+.daily-tbl tr:last-child td{border-bottom:none}
+.daily-tbl tr.surplus td{color:var(--red)}
+.daily-tbl tr.surplus td:first-child,.daily-tbl tr.surplus td:nth-child(2){color:var(--t2)}
+.daily-tbl .ex{color:var(--t3);font-family:'DM Sans',sans-serif;font-size:11px;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* FOOTER */
+.ftr{text-align:center;padding:24px 0;border-top:1px solid var(--bdr);margin-top:8px}
+.ftr .up{font-size:11px;color:var(--t4);font-family:'JetBrains Mono',monospace}
+.ftr .by{font-size:10px;color:var(--t4);margin-top:4px;opacity:.5}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app">
+  <!-- Header -->
+  <div class="hdr">
+    <h1>THE CUT</h1>
+    <div class="sub">10-Week Body Recomposition</div>
+    <div class="dates">Feb 20 -- May 1, 2026</div>
+  </div>
+
+  <!-- About -->
+  <div class="summary-box">
+    <div class="summary-label">About</div>
+    <p class="summary-text">10-week structured cut (Feb 20 -- May 1, 2026). Targeting 17% body fat through caloric deficit while preserving skeletal muscle mass. Tracking daily calories, macros, TDEE, and body composition via Garmin BIA. Protein floor: 160g/day. Training: upper/lower split with daily cardio. Baselines: 79.6 kg / 20.3% BF / 32.7 kg SMM.</p>
+  </div>
+
+  <!-- Current Progress -->
+  <div class="summary-box" id="progressSummary">
+    <div class="summary-label">Current Progress</div>
+    <p class="summary-text" id="progressText">Loading...</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="prog">
+    <div class="prog-top">
+      <span class="lab">Progress</span>
+      <span class="val" id="progPct">--</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progBar" style="width:0%"></div></div>
+    <div class="prog-bot">
+      <span id="progDays">Day -- of 70</span>
+      <span id="progRemain">-- days left</span>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stats" id="statCards"></div>
+
+  <!-- Analysis (expandable) -->
+  <button class="expand-toggle" id="toggleAnalysis">
+    <span>Observations & Analysis</span>
+    <span class="arrow">&#9660;</span>
+  </button>
+  <div class="analysis-section" id="analysisSection">
+    <div class="analysis-date" id="analysisDate"></div>
+    <div class="tabs analysis-tabs" id="analysisTabs">
+      <button class="on" data-atab="goingWell">Going Well</button>
+      <button data-atab="toWatch">To Watch</button>
+      <button data-atab="observations">Observations</button>
+    </div>
+    <div class="analysis-content" id="analysisContent"></div>
+  </div>
+
+  <!-- Daily Log (expandable, before charts) -->
+  <button class="expand-toggle" id="toggleDaily">
+    <span>View Daily Log</span>
+    <span class="arrow">&#9660;</span>
+  </button>
+  <div class="daily-log" id="dailyLog"></div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabs">
+    <button class="on" data-tab="bodycomp">Body Comp</button>
+    <button data-tab="deficit">Deficit</button>
+    <button data-tab="protein">Protein</button>
+    <button data-tab="projection">Projection</button>
+  </div>
+
+  <!-- Chart Panels -->
+  <div class="panel on" id="panel-bodycomp">
+    <div class="panel-t-row">
+      <div class="panel-t">Weight & Body Fat % Trend</div>
+      <div class="proj-toggles">
+        <button class="proj-tog on" id="togBcBf"><span class="tog-dot bf"></span>BF%</button>
+        <button class="proj-tog on" id="togBcWt"><span class="tog-dot wt"></span>Weight</button>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="chart-bodycomp"></canvas></div>
+  </div>
+  <div class="panel" id="panel-deficit">
+    <div class="panel-t">Daily Caloric Deficit</div>
+    <div class="chart-box"><canvas id="chart-deficit"></canvas></div>
+  </div>
+  <div class="panel" id="panel-protein">
+    <div class="panel-t">Daily Protein Intake</div>
+    <div class="chart-box"><canvas id="chart-protein"></canvas></div>
+  </div>
+  <div class="panel" id="panel-projection">
+    <div class="panel-t-row">
+      <div class="panel-t">Projection to May 1</div>
+      <div class="proj-toggles">
+        <button class="proj-tog on" data-group="bf" id="togBf"><span class="tog-dot bf"></span>BF%</button>
+        <button class="proj-tog on" data-group="wt" id="togWt"><span class="tog-dot wt"></span>Weight</button>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="chart-projection"></canvas></div>
+  </div>
+
+  <!-- Weekly Summary Table (expandable) -->
+  <button class="expand-toggle" id="toggleWeekly">
+    <span>View Weekly Summary</span>
+    <span class="arrow">&#9660;</span>
+  </button>
+  <div class="weekly-log" id="weeklyTableWrap">
+    <div class="tbl-wrap" id="weeklyTable"></div>
+  </div>
+
+  <!-- Weekly Averages (standalone chart) -->
+  <div class="weekly-standalone">
+    <div class="panel-t-row">
+      <div class="panel-t">Weekly Averages</div>
+      <div class="proj-toggles">
+        <button class="proj-tog on" id="togWkEnergy"><span class="tog-dot energy"></span>Energy</button>
+        <button class="proj-tog on" id="togWkComp"><span class="tog-dot bf"></span>Body Comp</button>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="chart-weekly"></canvas></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="ftr">
+    <div class="up" id="lastUpdated">Last updated: --</div>
+    <div class="by">Tracked with Claude</div>
+  </div>
+</div>
+
+<script>
+// ==================== DATA ====================
+let DATA = null;
+
+async function loadData() {
+  try {
+    const res = await fetch('data.json');
+    DATA = await res.json();
+    init();
+  } catch (e) {
+    document.getElementById('app').innerHTML = '<div style="text-align:center;padding:60px 20px;color:#9898a8;font-family:JetBrains Mono,monospace;font-size:13px;">Could not load data.json<br><br><span style="color:#58586a;font-size:11px;">Make sure data.json is in the same directory as index.html</span></div>';
+  }
+}
+
+loadData();
+
+// ==================== HELPERS ====================
+const fmt = (n, d=0) => n != null ? n.toLocaleString(undefined, {minimumFractionDigits:d,maximumFractionDigits:d}) : '--';
+const sign = n => n > 0 ? '+'+fmt(n) : fmt(n);
+
+// ==================== PROGRESS ====================
+function renderProgress(meta) {
+  const pct = Math.round((meta.daysComplete / meta.totalDays) * 100);
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progDays').textContent = `Day ${meta.daysComplete} of ${meta.totalDays}`;
+  document.getElementById('progRemain').textContent = `${meta.totalDays - meta.daysComplete} days left`;
+}
+
+// ==================== STAT CARDS ====================
+function renderStats(data) {
+  const d = data.daily;
+  const w = data.weekly;
+  const m = data.meta;
+  const lastWeek = w[w.length - 1];
+  const lastWeight = [...d].reverse().find(x => x.weight != null);
+  const lastBf = [...d].reverse().find(x => x.bfActual != null);
+  const lastSmm = [...d].reverse().find(x => x.smm != null);
+  const avgProtein = Math.round(d.reduce((s,x) => s + x.protein, 0) / d.length);
+  const avgDeficit = Math.round(d.reduce((s,x) => s + x.deficit, 0) / d.length);
+  const cumDef = d.reduce((s,x) => s + x.deficit, 0);
+  const fatLossKg = Math.abs(cumDef) / 7700;
+
+  const cards = [
+    {
+      label: 'Weight',
+      value: lastWeight ? fmt(lastWeight.weight, 1) + ' kg' : '--',
+      color: 'var(--blue)',
+      sub: `Baseline: ${fmt(m.startWeight, 1)} kg`,
+      tag: lastWeight ? sign(+(lastWeight.weight - m.startWeight).toFixed(1)) + ' kg' : null,
+      tagClass: lastWeight && lastWeight.weight < m.startWeight ? 'tag-g' : 'tag-r'
+    },
+    {
+      label: 'Body Fat',
+      value: lastBf ? fmt(lastBf.bfActual, 1) + '%' : '--',
+      color: 'var(--purple)',
+      sub: `Baseline: ${fmt(m.startBfActual, 1)}% (Garmin -3%)`,
+      tag: lastBf ? sign(+(lastBf.bfActual - m.startBfActual).toFixed(1)) + '%' : null,
+      tagClass: lastBf && lastBf.bfActual < m.startBfActual ? 'tag-g' : 'tag-r'
+    },
+    {
+      label: 'SMM',
+      value: lastSmm ? fmt(lastSmm.smm, 1) + ' kg' : '--',
+      color: 'var(--green)',
+      sub: 'Skeletal muscle mass',
+      tag: 'Preserved',
+      tagClass: 'tag-g'
+    },
+    {
+      label: 'Avg Deficit',
+      value: fmt(avgDeficit) + ' cal',
+      color: 'var(--red)',
+      sub: 'Per day average',
+      tag: avgDeficit < -600 ? 'On track' : 'Moderate',
+      tagClass: avgDeficit < -600 ? 'tag-g' : 'tag-a'
+    },
+    {
+      label: 'Avg Protein',
+      value: avgProtein + 'g',
+      color: 'var(--amber)',
+      sub: 'Target: 200g+ / Floor: 160g',
+      tag: avgProtein >= 200 ? 'Above target' : avgProtein >= 160 ? 'Above floor' : 'Below floor',
+      tagClass: avgProtein >= 200 ? 'tag-g' : avgProtein >= 160 ? 'tag-a' : 'tag-r'
+    },
+    {
+      label: 'Fat Lost',
+      value: fmt(fatLossKg, 1) + ' kg',
+      color: 'var(--cyan)',
+      sub: `From ${fmt(Math.abs(cumDef))} cal deficit`,
+      tag: fmt(fatLossKg / (m.startWeight * m.startBfActual / 100) * 100, 0) + '% of starting fat',
+      tagClass: 'tag-b'
+    }
+  ];
+
+  const container = document.getElementById('statCards');
+  container.innerHTML = cards.map(c => `
+    <div class="sc">
+      <div class="lab">${c.label}</div>
+      <div class="val" style="color:${c.color}">${c.value}</div>
+      <div class="sub">${c.sub}</div>
+      ${c.tag ? `<span class="tag ${c.tagClass}">${c.tag}</span>` : ''}
+    </div>
+  `).join('');
+}
+
+// ==================== TABS ====================
+function initTabs() {
+  const tabs = document.querySelectorAll('#tabs button');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('on');
+    });
+  });
+}
+
+// ==================== CHARTS ====================
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: '#19191f',
+      borderColor: '#2a2a38',
+      borderWidth: 1,
+      titleFont: { family: "'JetBrains Mono', monospace", size: 11 },
+      bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
+      padding: 10,
+      cornerRadius: 8,
+      displayColors: false
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: 'rgba(34,34,48,.4)', drawBorder: false },
+      ticks: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#58586a', maxRotation: 0 }
+    },
+    y: {
+      grid: { color: 'rgba(34,34,48,.4)', drawBorder: false },
+      ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a' }
+    }
+  }
+};
+
+function deepMerge(target, source) {
+  const out = {...target};
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      out[key] = deepMerge(out[key] || {}, source[key]);
+    } else {
+      out[key] = source[key];
+    }
+  }
+  return out;
+}
+
+function chartBodyComp(daily, weekly, meta) {
+  const withWeight = daily.filter(d => d.weight != null);
+  const ctx = document.getElementById('chart-bodycomp').getContext('2d');
+
+  // Projected weight at each weighed-in day based on cumulative deficit math
+  const projectedWeights = withWeight.map(d => {
+    const daysUpTo = daily.filter(x => x.day <= d.day);
+    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
+    return +(meta.startWeight + cumDef / 7700).toFixed(2);
+  });
+
+  // Projected BF% at each weighed-in day
+  // Assuming all deficit loss is fat: new fat mass = start fat mass + cumDef/7700
+  // new BF% = new fat mass / projected weight * 100
+  const startFatMass = meta.startWeight * meta.startBfActual / 100;
+  const projectedBf = withWeight.map((d, i) => {
+    const projWt = projectedWeights[i];
+    const daysUpTo = daily.filter(x => x.day <= d.day);
+    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
+    const newFatMass = startFatMass + cumDef / 7700;
+    return +(newFatMass / projWt * 100).toFixed(1);
+  });
+
+  const bcChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: withWeight.map(d => 'D' + d.day),
+      datasets: [
+        {
+          label: 'Weight (kg)',
+          data: withWeight.map(d => d.weight),
+          borderColor: '#4d8ff7',
+          backgroundColor: 'rgba(77,143,247,.08)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#4d8ff7',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 1.5,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Projected Weight',
+          data: projectedWeights,
+          borderColor: 'rgba(77,143,247,.3)',
+          borderDash: [5, 4],
+          tension: 0.35,
+          borderWidth: 1.5,
+          pointRadius: 2,
+          pointBackgroundColor: 'rgba(77,143,247,.3)',
+          fill: false,
+          yAxisID: 'y'
+        },
+        {
+          label: 'BF% (actual)',
+          data: withWeight.map(d => d.bfActual),
+          borderColor: '#a78bfa',
+          backgroundColor: 'rgba(167,139,250,.08)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#a78bfa',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 1.5,
+          yAxisID: 'y1'
+        },
+        {
+          label: 'Projected BF%',
+          data: projectedBf,
+          borderColor: 'rgba(167,139,250,.3)',
+          borderDash: [5, 4],
+          tension: 0.35,
+          borderWidth: 1.5,
+          pointRadius: 2,
+          pointBackgroundColor: 'rgba(167,139,250,.3)',
+          fill: false,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: deepMerge(chartDefaults, {
+      plugins: {
+        legend: { display: true, position: 'top', align: 'end',
+          labels: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#9898a8', boxWidth: 10, padding: 16, usePointStyle: true, pointStyle: 'circle' }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.dataset.yAxisID === 'y1') return ctx.raw != null ? ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + '%' : '--';
+              return ctx.raw != null ? ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' kg' : '--';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#58586a' } },
+        y: { position: 'left', min: 75, max: 82, grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#4d8ff7', callback: v => v + ' kg' } },
+        y1: { position: 'right', min: 16, max: 24, grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#a78bfa', callback: v => v + '%' } }
+      }
+    })
+  });
+
+  // Dataset indices: 0=Weight, 1=Projected Weight, 2=BF% actual, 3=Projected BF%
+  const bcWtIndices = [0, 1];
+  const bcBfIndices = [2, 3];
+
+  function bcToggle(group, show) {
+    const indices = group === 'bf' ? bcBfIndices : bcWtIndices;
+    indices.forEach(i => { bcChart.setDatasetVisibility(i, show); });
+    if (group === 'bf') { bcChart.options.scales.y1.display = show; }
+    else { bcChart.options.scales.y.display = show; }
+    bcChart.update();
+  }
+
+  document.getElementById('togBcBf').addEventListener('click', function() {
+    this.classList.toggle('on');
+    bcToggle('bf', this.classList.contains('on'));
+  });
+  document.getElementById('togBcWt').addEventListener('click', function() {
+    this.classList.toggle('on');
+    bcToggle('wt', this.classList.contains('on'));
+  });
+}
+
+function chartDeficit(daily) {
+  const ctx = document.getElementById('chart-deficit').getContext('2d');
+  const labels = daily.map(d => 'D' + d.day);
+  const colors = daily.map(d => d.deficit > 0 ? 'rgba(240,96,96,.7)' : 'rgba(77,143,247,.55)');
+  const avgDef = Math.round(daily.reduce((s,d) => s + d.deficit, 0) / daily.length);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Deficit',
+        data: daily.map(d => d.deficit),
+        backgroundColor: colors,
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: 0.7
+      }]
+    },
+    options: deepMerge(chartDefaults, {
+      plugins: {
+        tooltip: { callbacks: { label: ctx => sign(ctx.raw) + ' cal' } },
+        annotation: undefined
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 8 }, color: '#58586a', maxRotation: 0, autoSkip: true, maxTicksLimit: 18 } },
+        y: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a', callback: v => v.toLocaleString() } }
+      }
+    }),
+    plugins: [{
+      id: 'avgLine',
+      afterDraw(chart) {
+        const y = chart.scales.y.getPixelForValue(avgDef);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(235,184,77,.5)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(chart.chartArea.left, y);
+        ctx.lineTo(chart.chartArea.right, y);
+        ctx.stroke();
+        ctx.fillStyle = '#ebb84d';
+        ctx.font = "10px 'JetBrains Mono', monospace";
+        ctx.fillText('avg ' + avgDef, chart.chartArea.right - 55, y - 5);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function chartProtein(daily) {
+  const ctx = document.getElementById('chart-protein').getContext('2d');
+  const colors = daily.map(d => d.protein >= 200 ? 'rgba(45,212,160,.6)' : d.protein >= 160 ? 'rgba(235,184,77,.6)' : 'rgba(240,96,96,.6)');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: daily.map(d => 'D' + d.day),
+      datasets: [{
+        label: 'Protein',
+        data: daily.map(d => d.protein),
+        backgroundColor: colors,
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: 0.7
+      }]
+    },
+    options: deepMerge(chartDefaults, {
+      plugins: { tooltip: { callbacks: { label: ctx => ctx.raw + 'g protein' } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 8 }, color: '#58586a', maxRotation: 0, autoSkip: true, maxTicksLimit: 18 } },
+        y: { min: 100, grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a', callback: v => v + 'g' } }
+      }
+    }),
+    plugins: [{
+      id: 'thresholds',
+      afterDraw(chart) {
+        const ctx = chart.ctx;
+        ctx.save();
+        // 200g target
+        let y = chart.scales.y.getPixelForValue(200);
+        ctx.setLineDash([4,4]);
+        ctx.strokeStyle = 'rgba(45,212,160,.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke();
+        ctx.fillStyle = 'rgba(45,212,160,.7)';
+        ctx.font = "10px 'JetBrains Mono', monospace";
+        ctx.fillText('200g target', chart.chartArea.right - 72, y - 5);
+        // 160g floor
+        y = chart.scales.y.getPixelForValue(160);
+        ctx.strokeStyle = 'rgba(240,96,96,.3)';
+        ctx.beginPath(); ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke();
+        ctx.fillStyle = 'rgba(240,96,96,.6)';
+        ctx.fillText('160g floor', chart.chartArea.right - 65, y - 5);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function chartProjection(weekly, projections, meta, daily) {
+  const ctx = document.getElementById('chart-projection').getContext('2d');
+  const bfData = weekly.map(w => w.bfActual);
+  const weightData = weekly.map(w => w.weight);
+
+  const lastBf = bfData[bfData.length - 1];
+  const lastWeight = weightData[weightData.length - 1];
+  const lastWeek = weekly.length;
+  const projWeeks = [];
+  const projBf = [];
+  const projWt = [];
+  const targetLine = [];
+
+  // Deficit-projected weight per completed week
+  const startFatMass = meta.startWeight * meta.startBfActual / 100;
+  const defProjWeightData = weekly.map(w => {
+    const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
+    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
+    return +(meta.startWeight + cumDef / 7700).toFixed(1);
+  });
+
+  // Deficit-projected BF% per completed week
+  const defProjBfData = weekly.map((w, i) => {
+    const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
+    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
+    const newFatMass = startFatMass + cumDef / 7700;
+    const projWt = defProjWeightData[i];
+    return +(newFatMass / projWt * 100).toFixed(1);
+  });
+
+  for (let i = 1; i <= 10; i++) {
+    projWeeks.push('Wk ' + i);
+    targetLine.push(meta.targetBf);
+    if (i <= lastWeek) {
+      projBf.push(null);
+      projWt.push(null);
+    } else {
+      const weeksLeft = 10 - lastWeek;
+      const weekIdx = i - lastWeek;
+      const endBf = projections.currentPace.endBf;
+      const endWt = projections.currentPace.endWeight;
+      projBf.push(+(lastBf - (lastBf - endBf) * (weekIdx / weeksLeft)).toFixed(1));
+      projWt.push(+(lastWeight - (lastWeight - endWt) * (weekIdx / weeksLeft)).toFixed(1));
+    }
+  }
+  projBf[lastWeek - 1] = lastBf;
+  projWt[lastWeek - 1] = lastWeight;
+
+  // Dataset indices: 0=Actual BF, 1=Projected BF, 2=Deficit-Proj BF, 3=17% Target, 4=Actual Wt, 5=Projected Wt, 6=Deficit-Proj Wt
+  const bfIndices = [0, 1, 2, 3];
+  const wtIndices = [4, 5, 6];
+
+  const projChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: projWeeks,
+      datasets: [
+        {
+          label: 'Actual BF%',
+          data: [...bfData, ...new Array(10 - bfData.length).fill(null)],
+          borderColor: '#a78bfa',
+          backgroundColor: 'rgba(167,139,250,.1)',
+          fill: true, tension: 0.3, borderWidth: 2.5,
+          pointRadius: 4, pointBackgroundColor: '#a78bfa',
+          pointBorderColor: '#111116', pointBorderWidth: 2,
+          spanGaps: false, yAxisID: 'y'
+        },
+        {
+          label: 'Projected BF%',
+          data: projBf,
+          borderColor: 'rgba(167,139,250,.35)',
+          borderDash: [6, 4], tension: 0.3, borderWidth: 2,
+          pointRadius: 2, pointBackgroundColor: 'rgba(167,139,250,.35)',
+          spanGaps: false, yAxisID: 'y'
+        },
+        {
+          label: 'Deficit-Proj BF%',
+          data: [...defProjBfData, ...new Array(10 - defProjBfData.length).fill(null)],
+          borderColor: 'rgba(45,212,160,.45)',
+          borderDash: [3, 3], tension: 0.3, borderWidth: 1.5,
+          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.4)',
+          spanGaps: false, fill: false, yAxisID: 'y'
+        },
+        {
+          label: '17% Target',
+          data: targetLine,
+          borderColor: 'rgba(45,212,160,.25)',
+          borderDash: [3, 3], borderWidth: 1, pointRadius: 0,
+          fill: false, yAxisID: 'y'
+        },
+        {
+          label: 'Actual Weight',
+          data: [...weightData, ...new Array(10 - weightData.length).fill(null)],
+          borderColor: '#4d8ff7', tension: 0.3, borderWidth: 2,
+          pointRadius: 3, pointBackgroundColor: '#4d8ff7',
+          pointBorderColor: '#111116', pointBorderWidth: 1.5,
+          spanGaps: false, fill: false, yAxisID: 'y1'
+        },
+        {
+          label: 'Projected Weight',
+          data: projWt,
+          borderColor: 'rgba(77,143,247,.35)',
+          borderDash: [6, 4], tension: 0.3, borderWidth: 1.5,
+          pointRadius: 2, pointBackgroundColor: 'rgba(77,143,247,.35)',
+          spanGaps: false, fill: false, yAxisID: 'y1'
+        },
+        {
+          label: 'Deficit-Proj Wt',
+          data: [...defProjWeightData, ...new Array(10 - defProjWeightData.length).fill(null)],
+          borderColor: 'rgba(45,212,160,.35)',
+          borderDash: [3, 3], tension: 0.3, borderWidth: 1.5,
+          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.35)',
+          spanGaps: false, fill: false, yAxisID: 'y1'
+        }
+      ]
+    },
+    options: deepMerge(chartDefaults, {
+      plugins: {
+        legend: { display: true, position: 'top', align: 'end',
+          labels: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#9898a8', boxWidth: 8, padding: 10, usePointStyle: true, pointStyle: 'circle' }
+        },
+        tooltip: { callbacks: { label: ctx => {
+          if (ctx.raw == null) return '';
+          const isWeight = ctx.dataset.yAxisID === 'y1';
+          return (ctx.dataset.label || '') + ': ' + (isWeight ? ctx.raw.toFixed(1) + ' kg' : ctx.raw.toFixed(1) + '%');
+        }}}
+      },
+      scales: {
+        x: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a' } },
+        y: { position: 'left', min: 14, max: 22, grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#a78bfa', callback: v => v + '%' } },
+        y1: { position: 'right', min: 73, max: 81, grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#4d8ff7', callback: v => v + ' kg' } }
+      }
+    })
+  });
+
+  // Toggle logic
+  function toggleGroup(group, show) {
+    const indices = group === 'bf' ? bfIndices : wtIndices;
+    indices.forEach(i => {
+      projChart.setDatasetVisibility(i, show);
+    });
+    // Also toggle the y axis
+    if (group === 'bf') {
+      projChart.options.scales.y.display = show;
+    } else {
+      projChart.options.scales.y1.display = show;
+    }
+    projChart.update();
+  }
+
+  document.getElementById('togBf').addEventListener('click', function() {
+    this.classList.toggle('on');
+    toggleGroup('bf', this.classList.contains('on'));
+  });
+  document.getElementById('togWt').addEventListener('click', function() {
+    this.classList.toggle('on');
+    toggleGroup('wt', this.classList.contains('on'));
+  });
+}
+
+// ==================== WEEKLY CHART ====================
+function chartWeekly(weekly) {
+  const ctx = document.getElementById('chart-weekly').getContext('2d');
+  const labels = weekly.map(w => 'Wk ' + w.week);
+
+  // Energy group: Avg Cal bars, Avg TDEE bars, Deficit line
+  // Body Comp group: Weight line (left axis), BF% line (right axis), SMM line (left axis)
+
+  // Energy indices: 0=Avg Cal, 1=Avg TDEE, 2=Avg Deficit
+  // Body Comp indices: 3=Weight, 4=BF%, 5=SMM
+  const energyIndices = [0, 1, 2];
+  const compIndices = [3, 4, 5];
+
+  const wkChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Avg Calories',
+          data: weekly.map(w => w.avgCal),
+          backgroundColor: 'rgba(77,143,247,.45)',
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.8,
+          yAxisID: 'yEnergy',
+          order: 2
+        },
+        {
+          label: 'Avg TDEE',
+          data: weekly.map(w => w.avgTdee),
+          backgroundColor: 'rgba(235,184,77,.35)',
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.8,
+          yAxisID: 'yEnergy',
+          order: 2
+        },
+        {
+          label: 'Avg Deficit',
+          type: 'line',
+          data: weekly.map(w => w.avgDeficit),
+          borderColor: '#f06060',
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#f06060',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 2,
+          yAxisID: 'yDeficit',
+          order: 1
+        },
+        {
+          label: 'Weight (kg)',
+          type: 'line',
+          data: weekly.map(w => w.weight),
+          borderColor: '#4d8ff7',
+          tension: 0.3,
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#4d8ff7',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 2,
+          yAxisID: 'yWeight',
+          order: 1
+        },
+        {
+          label: 'BF% (actual)',
+          type: 'line',
+          data: weekly.map(w => w.bfActual),
+          borderColor: '#a78bfa',
+          tension: 0.3,
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#a78bfa',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 2,
+          yAxisID: 'yBf',
+          order: 1
+        },
+        {
+          label: 'SMM (kg)',
+          type: 'line',
+          data: weekly.map(w => w.smm),
+          borderColor: 'rgba(45,212,160,.7)',
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: 'rgba(45,212,160,.7)',
+          pointBorderColor: '#111116',
+          pointBorderWidth: 1.5,
+          borderDash: [4, 3],
+          yAxisID: 'yWeight',
+          order: 1
+        }
+      ]
+    },
+    options: deepMerge(chartDefaults, {
+      plugins: {
+        legend: { display: true, position: 'top', align: 'end',
+          labels: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#9898a8', boxWidth: 8, padding: 10, usePointStyle: true, pointStyle: 'circle' }
+        },
+        tooltip: { callbacks: { label: ctx => {
+          if (ctx.raw == null) return '';
+          const lbl = ctx.dataset.label || '';
+          if (lbl.includes('BF')) return lbl + ': ' + ctx.raw.toFixed(1) + '%';
+          if (lbl.includes('kg') || lbl.includes('Weight')) return lbl + ': ' + ctx.raw.toFixed(1) + ' kg';
+          if (lbl.includes('SMM')) return lbl + ': ' + ctx.raw.toFixed(1) + ' kg';
+          return lbl + ': ' + Math.round(ctx.raw).toLocaleString() + ' cal';
+        }}}
+      },
+      scales: {
+        x: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a' } },
+        y: { display: false },
+        yEnergy: {
+          position: 'left', display: true,
+          min: 1500, max: 3200,
+          grid: { color: 'rgba(34,34,48,.3)', drawBorder: false },
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#ebb84d', callback: v => (v/1000).toFixed(1)+'k' }
+        },
+        yDeficit: {
+          position: 'right', display: true,
+          min: -900, max: 0,
+          grid: { display: false },
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#f06060', callback: v => v }
+        },
+        yWeight: {
+          position: 'left', display: false,
+          min: 30, max: 82,
+          grid: { color: 'rgba(34,34,48,.3)', drawBorder: false },
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#4d8ff7', callback: v => v + ' kg' }
+        },
+        yBf: {
+          position: 'right', display: false,
+          min: 16, max: 24,
+          grid: { display: false },
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#a78bfa', callback: v => v + '%' }
+        }
+      }
+    })
+  });
+
+  // Initially hide body comp group
+  compIndices.forEach(i => { wkChart.setDatasetVisibility(i, false); });
+
+  function wkToggle(group, show) {
+    const indices = group === 'energy' ? energyIndices : compIndices;
+    indices.forEach(i => { wkChart.setDatasetVisibility(i, show); });
+    if (group === 'energy') {
+      wkChart.options.scales.yEnergy.display = show;
+      wkChart.options.scales.yDeficit.display = show;
+    } else {
+      wkChart.options.scales.yWeight.display = show;
+      wkChart.options.scales.yBf.display = show;
+    }
+    wkChart.update();
+  }
+
+  // Energy on by default, Body Comp off by default
+  document.getElementById('togWkEnergy').addEventListener('click', function() {
+    this.classList.toggle('on');
+    wkToggle('energy', this.classList.contains('on'));
+  });
+  document.getElementById('togWkComp').classList.remove('on');
+  document.getElementById('togWkComp').addEventListener('click', function() {
+    this.classList.toggle('on');
+    wkToggle('comp', this.classList.contains('on'));
+  });
+}
+
+// ==================== WEEKLY TABLE ====================
+function renderWeeklyTable(weekly) {
+  const lastWeek = weekly[weekly.length - 1].week;
+  const rows = weekly.map(w => {
+    const isCur = w.week === lastWeek;
+    return `<tr class="${isCur ? 'cur' : ''}">
+      <td>Wk ${w.week}</td>
+      <td class="col-hide">${w.dates}</td>
+      <td class="num">${fmt(w.avgCal)}</td>
+      <td class="col-hide num" style="color:${w.avgProtein >= 200 ? 'var(--green)' : 'var(--amber)'}">${w.avgProtein}g</td>
+      <td class="num">${fmt(w.avgTdee)}</td>
+      <td class="num" style="color:${w.avgDeficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(w.avgDeficit)}</td>
+      <td class="col-hide num">${fmt(w.weight, 1)}</td>
+      <td class="col-hide num" style="color:var(--purple)">${fmt(w.bfActual, 1)}%</td>
+      <td class="col-hide num">${fmt(w.smm, 1)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('weeklyTable').innerHTML = `
+    <div class="tbl-scroll">
+      <table class="tbl" id="weeklyTbl">
+        <thead><tr>
+          <th>Week</th><th class="col-hide">Dates</th><th>Avg Cal</th><th class="col-hide">Avg Protein</th>
+          <th>Avg TDEE</th><th>Avg Deficit</th><th class="col-hide">Weight</th><th class="col-hide">BF%</th><th class="col-hide">SMM</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <button class="more-tog" id="weeklyMoreTog">
+      <span>+ All columns</span>
+    </button>`;
+
+  document.getElementById('toggleWeekly').addEventListener('click', function() {
+    const wrap = document.getElementById('weeklyTableWrap');
+    const isOpen = wrap.classList.toggle('on');
+    this.classList.toggle('open', isOpen);
+    this.querySelector('span:first-child').textContent = isOpen ? 'Hide Weekly Summary' : 'View Weekly Summary';
+  });
+
+  document.getElementById('weeklyMoreTog').addEventListener('click', function() {
+    const tbl = document.getElementById('weeklyTbl');
+    tbl.classList.toggle('show-more');
+    const showing = tbl.classList.contains('show-more');
+    this.classList.toggle('on', showing);
+    this.querySelector('span').textContent = showing ? '- Fewer' : '+ All columns';
+  });
+}
+
+// ==================== DAILY LOG ====================
+function renderDailyLog(daily) {
+  const rows = daily.map(d => {
+    const isSurplus = d.deficit > 0;
+    return `<tr class="${isSurplus ? 'surplus' : ''}">
+      <td>${d.day}</td>
+      <td class="col-hide">${d.date}</td>
+      <td class="col-hide">${d.weekday}</td>
+      <td class="num">${fmt(d.calories)}</td>
+      <td class="num" style="color:${d.protein >= 200 ? 'var(--green)' : d.protein >= 160 ? 'var(--amber)' : 'var(--red)'}">${d.protein}g</td>
+      <td class="num">${fmt(d.tdee)}</td>
+      <td class="num" style="color:${d.deficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(d.deficit)}</td>
+      <td class="col-hide num" style="color:var(--purple)">${d.weight != null ? fmt(d.weight, 1) : ''}</td>
+      <td class="num" style="color:var(--purple)">${d.bfActual != null ? fmt(d.bfActual, 1) + '%' : ''}</td>
+      <td class="col-hide ex" title="${d.exercise || ''}">${d.exercise || ''}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('dailyLog').innerHTML = `
+    <div class="tbl-wrap daily-scroll">
+      <table class="daily-tbl" id="dailyTbl">
+        <thead><tr>
+          <th>#</th><th class="col-hide">Date</th><th class="col-hide">Day</th><th>Cal</th><th>Protein</th>
+          <th>TDEE</th><th>Deficit</th><th class="col-hide">Weight</th><th>BF%</th><th class="col-hide">Exercise</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <button class="more-tog" id="dailyMoreTog">
+      <span>+ All columns</span>
+    </button>`;
+
+  document.getElementById('toggleDaily').addEventListener('click', function() {
+    const log = document.getElementById('dailyLog');
+    const isOpen = log.classList.toggle('on');
+    this.classList.toggle('open', isOpen);
+    this.querySelector('span:first-child').textContent = isOpen ? 'Hide Daily Log' : 'View Daily Log';
+  });
+
+  document.getElementById('dailyMoreTog').addEventListener('click', function() {
+    const tbl = document.getElementById('dailyTbl');
+    tbl.classList.toggle('show-more');
+    const showing = tbl.classList.contains('show-more');
+    this.classList.toggle('on', showing);
+    this.querySelector('span').textContent = showing ? '- Fewer' : '+ All columns';
+  });
+}
+
+// ==================== FOOTER ====================
+function renderFooter(meta) {
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + meta.lastUpdated;
+}
+
+// ==================== ANALYSIS ====================
+function renderAnalysis(analysis) {
+  if (!analysis) return;
+
+  document.getElementById('analysisDate').textContent = 'As of ' + analysis.asOf;
+
+  const sections = {
+    goingWell: analysis.goingWell,
+    toWatch: analysis.toWatch,
+    observations: analysis.observations
+  };
+
+  let currentTab = 'goingWell';
+
+  function renderItems(key) {
+    const items = sections[key] || [];
+    document.getElementById('analysisContent').innerHTML = items.map(item => `
+      <div class="analysis-item">
+        <div class="analysis-item-title">${item.title}</div>
+        <div class="analysis-item-text">${item.text}</div>
+      </div>
+    `).join('');
+  }
+
+  renderItems(currentTab);
+
+  // Tab switching
+  const tabBtns = document.querySelectorAll('#analysisTabs button');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      currentTab = btn.dataset.atab;
+      renderItems(currentTab);
+    });
+  });
+
+  // Toggle
+  document.getElementById('toggleAnalysis').addEventListener('click', function() {
+    const section = document.getElementById('analysisSection');
+    const isOpen = section.classList.toggle('on');
+    this.classList.toggle('open', isOpen);
+    this.querySelector('span:first-child').textContent = isOpen ? 'Hide Observations & Analysis' : 'Observations & Analysis';
+  });
+}
+
+// ==================== PROGRESS SUMMARY ====================
+function renderProgressSummary(data) {
+  const d = data.daily;
+  const m = data.meta;
+  const cumDef = d.reduce((s,x) => s + x.deficit, 0);
+  const fatLossKg = Math.abs(cumDef) / 7700;
+  const lastWeight = [...d].reverse().find(x => x.weight != null);
+  const lastBf = [...d].reverse().find(x => x.bfActual != null);
+  const lastSmm = [...d].reverse().find(x => x.smm != null);
+  const wt = lastWeight ? lastWeight.weight : null;
+  const bf = lastBf ? lastBf.bfActual : null;
+  const smm = lastSmm ? lastSmm.smm : null;
+  const wtDelta = wt != null ? (wt - m.startWeight).toFixed(1) : null;
+  const bfDelta = bf != null ? (bf - m.startBfActual).toFixed(1) : null;
+  const smmDelta = smm != null ? (smm - 32.7).toFixed(1) : null;
+
+  const lines = [];
+  lines.push(`Day ${m.daysComplete} of ${m.totalDays} (${Math.round(m.daysComplete/m.totalDays*100)}%).`);
+  lines.push(`Cumulative deficit of ${Math.abs(cumDef).toLocaleString()} calories, projecting ~${fatLossKg.toFixed(1)} kg fat loss.`);
+  if (wt != null) lines.push(`Weight: ${wt.toFixed(1)} kg (${wtDelta > 0 ? '+' : ''}${wtDelta} kg from baseline).`);
+  if (bf != null) lines.push(`Estimated body fat: ${bf.toFixed(1)}% (${bfDelta > 0 ? '+' : ''}${bfDelta}% from ${m.startBfActual}%).`);
+  if (smm != null) lines.push(`SMM: ${smm.toFixed(1)} kg (${smmDelta > 0 ? '+' : ''}${smmDelta} kg) -- muscle preserved.`);
+
+  // Check TDEE trend
+  const w = data.weekly;
+  if (w.length >= 2) {
+    const firstTdee = w[0].avgTdee;
+    const lastTdee = w[w.length-1].avgTdee;
+    if (lastTdee >= firstTdee) {
+      lines.push('TDEE trending upward, no metabolic adaptation detected.');
+    }
+  }
+
+  const proj = data.projections;
+  if (proj && proj.currentPace) {
+    lines.push(`On pace for ${proj.currentPace.endBf}% BF by May 1, ahead of the ${m.targetBf}% target.`);
+  }
+
+  document.getElementById('progressText').textContent = lines.join(' ');
+}
+
+// ==================== MOBILE DETECTION ====================
+// Detect actual device screen width (works even inside iframes)
+if (window.screen && window.screen.width <= 900) {
+  document.body.classList.add('is-mobile');
+}
+
+// ==================== INIT ====================
+function init() {
+  renderProgressSummary(DATA);
+  renderProgress(DATA.meta);
+  renderStats(DATA);
+  renderAnalysis(DATA.analysis);
+  initTabs();
+  chartBodyComp(DATA.daily, DATA.weekly, DATA.meta);
+  chartDeficit(DATA.daily);
+  chartProtein(DATA.daily);
+  chartWeekly(DATA.weekly);
+  chartProjection(DATA.weekly, DATA.projections, DATA.meta, DATA.daily);
+  renderWeeklyTable(DATA.weekly);
+  renderDailyLog(DATA.daily);
+  renderFooter(DATA.meta);
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1075,7 +1075,7 @@ function renderWeeklyTable(weekly) {
       <td class="num">${fmt(w.avgTdee)}</td>
       <td class="num" style="color:${w.avgDeficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(w.avgDeficit)}</td>
       <td class="col-hide num">${fmt(w.weight, 1)}</td>
-      <td class="col-hide num" style="color:var(--purple)">${fmt(w.bfActual, 1)}%</td>
+      <td class="num" style="color:var(--purple)">${fmt(w.bfActual, 1)}%</td>
       <td class="col-hide num">${fmt(w.smm, 1)}</td>
     </tr>`;
   }).join('');
@@ -1085,7 +1085,7 @@ function renderWeeklyTable(weekly) {
       <table class="tbl" id="weeklyTbl">
         <thead><tr>
           <th>Week</th><th class="col-hide">Dates</th><th>Avg Cal</th><th class="col-hide">Avg Protein</th>
-          <th>Avg TDEE</th><th>Avg Deficit</th><th class="col-hide">Weight</th><th class="col-hide">BF%</th><th class="col-hide">SMM</th>
+          <th>Avg TDEE</th><th>Avg Deficit</th><th class="col-hide">Weight</th><th>BF%</th><th class="col-hide">SMM</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>

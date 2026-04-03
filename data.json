@@ -806,15 +806,23 @@
     }
   ],
   "projections": {
-    "currentPace": {
+    "deficitMath": {
       "avgDeficit": -666,
       "endBf": 15.75,
-      "endWeight": 75.0
+      "endWeight": 75.0,
+      "label": "Deficit Math"
     },
-    "targetPace": {
-      "avgDeficit": -433,
+    "observedRate": {
+      "weeklyBfDrop": 0.5,
+      "endBf": 16.3,
+      "endWeight": 75.5,
+      "label": "Observed Rate"
+    },
+    "conservative": {
+      "weeklyBfDrop": 0.33,
       "endBf": 17.0,
-      "endWeight": 75.5
+      "endWeight": 76.0,
+      "label": "Conservative"
     }
   },
   "analysis": {

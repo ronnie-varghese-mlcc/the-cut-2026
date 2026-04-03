@@ -738,48 +738,56 @@ function chartProjection(weekly, projections, meta, daily) {
   const lastWeight = weightData[weightData.length - 1];
   const lastWeek = weekly.length;
   const projWeeks = [];
-  const projBf = [];
-  const projWt = [];
   const targetLine = [];
 
-  // Deficit-projected weight per completed week
+  // Three BF% projection models (fallback to old format)
+  const obs = projections.observedRate || projections.currentPace;
+  const def = projections.deficitMath || projections.currentPace;
+  const con = projections.conservative || projections.targetPace;
+
+  const projBfObs = [];
+  const projBfDef = [];
+  const projBfCon = [];
+  const projWtObs = [];
+
+  // Deficit-projected weight and BF% per completed week
   const startFatMass = meta.startWeight * meta.startBfActual / 100;
   const defProjWeightData = weekly.map(w => {
     const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
     const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
     return +(meta.startWeight + cumDef / 7700).toFixed(1);
   });
-
-  // Deficit-projected BF% per completed week
   const defProjBfData = weekly.map((w, i) => {
     const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
     const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
     const newFatMass = startFatMass + cumDef / 7700;
-    const projWt = defProjWeightData[i];
-    return +(newFatMass / projWt * 100).toFixed(1);
+    return +(newFatMass / defProjWeightData[i] * 100).toFixed(1);
   });
 
   for (let i = 1; i <= 10; i++) {
     projWeeks.push('Wk ' + i);
     targetLine.push(meta.targetBf);
     if (i <= lastWeek) {
-      projBf.push(null);
-      projWt.push(null);
+      projBfObs.push(null); projBfDef.push(null); projBfCon.push(null); projWtObs.push(null);
     } else {
       const weeksLeft = 10 - lastWeek;
       const weekIdx = i - lastWeek;
-      const endBf = projections.currentPace.endBf;
-      const endWt = projections.currentPace.endWeight;
-      projBf.push(+(lastBf - (lastBf - endBf) * (weekIdx / weeksLeft)).toFixed(1));
-      projWt.push(+(lastWeight - (lastWeight - endWt) * (weekIdx / weeksLeft)).toFixed(1));
+      projBfObs.push(+(lastBf - (lastBf - obs.endBf) * (weekIdx / weeksLeft)).toFixed(1));
+      projBfDef.push(+(lastBf - (lastBf - def.endBf) * (weekIdx / weeksLeft)).toFixed(1));
+      projBfCon.push(+(lastBf - (lastBf - con.endBf) * (weekIdx / weeksLeft)).toFixed(1));
+      const endWt = obs.endWeight || 75.5;
+      projWtObs.push(+(lastWeight - (lastWeight - endWt) * (weekIdx / weeksLeft)).toFixed(1));
     }
   }
-  projBf[lastWeek - 1] = lastBf;
-  projWt[lastWeek - 1] = lastWeight;
+  projBfObs[lastWeek - 1] = lastBf;
+  projBfDef[lastWeek - 1] = lastBf;
+  projBfCon[lastWeek - 1] = lastBf;
+  projWtObs[lastWeek - 1] = lastWeight;
 
-  // Dataset indices: 0=Actual BF, 1=Projected BF, 2=Deficit-Proj BF, 3=17% Target, 4=Actual Wt, 5=Projected Wt, 6=Deficit-Proj Wt
-  const bfIndices = [0, 1, 2, 3];
-  const wtIndices = [4, 5, 6];
+  // BF: 0=Actual, 1=Observed, 2=Deficit Math, 3=Conservative, 4=Deficit-Proj historical, 5=17% Target
+  // Wt: 6=Actual, 7=Projected, 8=Deficit-Proj historical
+  const bfIndices = [0, 1, 2, 3, 4, 5];
+  const wtIndices = [6, 7, 8];
 
   const projChart = new Chart(ctx, {
     type: 'line',
@@ -789,33 +797,48 @@ function chartProjection(weekly, projections, meta, daily) {
         {
           label: 'Actual BF%',
           data: [...bfData, ...new Array(10 - bfData.length).fill(null)],
-          borderColor: '#a78bfa',
-          backgroundColor: 'rgba(167,139,250,.1)',
+          borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,.1)',
           fill: true, tension: 0.3, borderWidth: 2.5,
           pointRadius: 4, pointBackgroundColor: '#a78bfa',
           pointBorderColor: '#111116', pointBorderWidth: 2,
           spanGaps: false, yAxisID: 'y'
         },
         {
-          label: 'Projected BF%',
-          data: projBf,
-          borderColor: 'rgba(167,139,250,.35)',
+          label: 'Observed Rate',
+          data: projBfObs,
+          borderColor: 'rgba(167,139,250,.5)',
           borderDash: [6, 4], tension: 0.3, borderWidth: 2,
-          pointRadius: 2, pointBackgroundColor: 'rgba(167,139,250,.35)',
+          pointRadius: 2, pointBackgroundColor: 'rgba(167,139,250,.5)',
+          spanGaps: false, yAxisID: 'y'
+        },
+        {
+          label: 'Deficit Math',
+          data: projBfDef,
+          borderColor: 'rgba(45,212,160,.45)',
+          borderDash: [4, 4], tension: 0.3, borderWidth: 1.5,
+          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.4)',
+          spanGaps: false, yAxisID: 'y'
+        },
+        {
+          label: 'Conservative',
+          data: projBfCon,
+          borderColor: 'rgba(235,184,77,.4)',
+          borderDash: [4, 4], tension: 0.3, borderWidth: 1.5,
+          pointRadius: 2, pointBackgroundColor: 'rgba(235,184,77,.4)',
           spanGaps: false, yAxisID: 'y'
         },
         {
           label: 'Deficit-Proj BF%',
           data: [...defProjBfData, ...new Array(10 - defProjBfData.length).fill(null)],
-          borderColor: 'rgba(45,212,160,.45)',
-          borderDash: [3, 3], tension: 0.3, borderWidth: 1.5,
-          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.4)',
+          borderColor: 'rgba(45,212,160,.3)',
+          borderDash: [3, 3], tension: 0.3, borderWidth: 1,
+          pointRadius: 1.5, pointBackgroundColor: 'rgba(45,212,160,.3)',
           spanGaps: false, fill: false, yAxisID: 'y'
         },
         {
           label: '17% Target',
           data: targetLine,
-          borderColor: 'rgba(45,212,160,.25)',
+          borderColor: 'rgba(240,96,96,.3)',
           borderDash: [3, 3], borderWidth: 1, pointRadius: 0,
           fill: false, yAxisID: 'y'
         },
@@ -829,7 +852,7 @@ function chartProjection(weekly, projections, meta, daily) {
         },
         {
           label: 'Projected Weight',
-          data: projWt,
+          data: projWtObs,
           borderColor: 'rgba(77,143,247,.35)',
           borderDash: [6, 4], tension: 0.3, borderWidth: 1.5,
           pointRadius: 2, pointBackgroundColor: 'rgba(77,143,247,.35)',
@@ -838,9 +861,9 @@ function chartProjection(weekly, projections, meta, daily) {
         {
           label: 'Deficit-Proj Wt',
           data: [...defProjWeightData, ...new Array(10 - defProjWeightData.length).fill(null)],
-          borderColor: 'rgba(45,212,160,.35)',
-          borderDash: [3, 3], tension: 0.3, borderWidth: 1.5,
-          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.35)',
+          borderColor: 'rgba(45,212,160,.25)',
+          borderDash: [3, 3], tension: 0.3, borderWidth: 1,
+          pointRadius: 1.5, pointBackgroundColor: 'rgba(45,212,160,.25)',
           spanGaps: false, fill: false, yAxisID: 'y1'
         }
       ]
@@ -867,15 +890,9 @@ function chartProjection(weekly, projections, meta, daily) {
   // Toggle logic
   function toggleGroup(group, show) {
     const indices = group === 'bf' ? bfIndices : wtIndices;
-    indices.forEach(i => {
-      projChart.setDatasetVisibility(i, show);
-    });
-    // Also toggle the y axis
-    if (group === 'bf') {
-      projChart.options.scales.y.display = show;
-    } else {
-      projChart.options.scales.y1.display = show;
-    }
+    indices.forEach(i => { projChart.setDatasetVisibility(i, show); });
+    if (group === 'bf') { projChart.options.scales.y.display = show; }
+    else { projChart.options.scales.y1.display = show; }
     projChart.update();
   }
 
@@ -888,6 +905,7 @@ function chartProjection(weekly, projections, meta, daily) {
     toggleGroup('wt', this.classList.contains('on'));
   });
 }
+
 
 // ==================== WEEKLY CHART ====================
 function chartWeekly(weekly) {

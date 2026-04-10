@@ -377,37 +377,45 @@ function renderStats(data) {
   const d = data.daily;
   const w = data.weekly;
   const m = data.meta;
-  const lastWeek = w[w.length - 1];
-  const lastWeight = [...d].reverse().find(x => x.weight != null);
-  const lastBf = [...d].reverse().find(x => x.bfActual != null);
-  const lastSmm = [...d].reverse().find(x => x.smm != null);
   const avgProtein = Math.round(d.reduce((s,x) => s + x.protein, 0) / d.length);
   const avgDeficit = Math.round(d.reduce((s,x) => s + x.deficit, 0) / d.length);
   const cumDef = d.reduce((s,x) => s + x.deficit, 0);
   const fatLossKg = Math.abs(cumDef) / 7700;
 
+  // Rolling 7-day average from the most recent 7 days of data
+  const last7 = d.slice(-7);
+  function avgOf(field) {
+    const vals = last7.map(x => x[field]).filter(v => v != null);
+    if (vals.length === 0) return null;
+    return vals.reduce((s, v) => s + v, 0) / vals.length;
+  }
+
+  const r7Weight = avgOf('weight');
+  const r7Bf = avgOf('bfActual');
+  const r7Smm = avgOf('smm');
+
   const cards = [
     {
       label: 'Weight',
-      value: lastWeight ? fmt(lastWeight.weight, 1) + ' kg' : '--',
+      value: r7Weight != null ? fmt(r7Weight, 1) + ' kg' : '--',
       color: 'var(--blue)',
-      sub: `Baseline: ${fmt(m.startWeight, 1)} kg`,
-      tag: lastWeight ? sign(+(lastWeight.weight - m.startWeight).toFixed(1)) + ' kg' : null,
-      tagClass: lastWeight && lastWeight.weight < m.startWeight ? 'tag-g' : 'tag-r'
+      sub: `7-day avg / Baseline: ${fmt(m.startWeight, 1)} kg`,
+      tag: r7Weight != null ? sign(+(r7Weight - m.startWeight).toFixed(1)) + ' kg' : null,
+      tagClass: r7Weight != null && r7Weight < m.startWeight ? 'tag-g' : 'tag-r'
     },
     {
       label: 'Body Fat',
-      value: lastBf ? fmt(lastBf.bfActual, 1) + '%' : '--',
+      value: r7Bf != null ? fmt(r7Bf, 1) + '%' : '--',
       color: 'var(--purple)',
-      sub: `Baseline: ${fmt(m.startBfActual, 1)}% (Garmin -3%)`,
-      tag: lastBf ? sign(+(lastBf.bfActual - m.startBfActual).toFixed(1)) + '%' : null,
-      tagClass: lastBf && lastBf.bfActual < m.startBfActual ? 'tag-g' : 'tag-r'
+      sub: `7-day avg / Baseline: ${fmt(m.startBfActual, 1)}%`,
+      tag: r7Bf != null ? sign(+(r7Bf - m.startBfActual).toFixed(1)) + '%' : null,
+      tagClass: r7Bf != null && r7Bf < m.startBfActual ? 'tag-g' : 'tag-r'
     },
     {
       label: 'SMM',
-      value: lastSmm ? fmt(lastSmm.smm, 1) + ' kg' : '--',
+      value: r7Smm != null ? fmt(r7Smm, 1) + ' kg' : '--',
       color: 'var(--green)',
-      sub: 'Skeletal muscle mass',
+      sub: '7-day avg / Skeletal muscle',
       tag: 'Preserved',
       tagClass: 'tag-g'
     },

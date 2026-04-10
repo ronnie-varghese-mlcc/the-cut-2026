@@ -3,11 +3,11 @@
     "startDate": "2026-02-20",
     "endDate": "2026-05-01",
     "totalDays": 70,
-    "daysComplete": 42,
+    "daysComplete": 49,
     "startWeight": 79.6,
     "startBfActual": 20.3,
     "targetBf": 17.0,
-    "lastUpdated": "2026-04-03"
+    "lastUpdated": "2026-04-10"
   },
   "daily": [
     {
@@ -723,6 +723,125 @@
       "smm": 32.0,
       "bodyWater": 57.7,
       "exercise": "Elliptical 18min + Walk 25min"
+    },
+    {
+      "day": 43,
+      "date": "Apr 03",
+      "weekday": "Fri",
+      "calories": 2832,
+      "protein": 223,
+      "carbs": 188,
+      "fat": 132,
+      "tdee": 2706,
+      "deficit": 126,
+      "weight": 77.6,
+      "bfGarmin": 20.6,
+      "bfActual": 17.6,
+      "smm": 32.2,
+      "bodyWater": 58.0,
+      "exercise": "Rest"
+    },
+    {
+      "day": 44,
+      "date": "Apr 04",
+      "weekday": "Sat",
+      "calories": 1933,
+      "protein": 202,
+      "carbs": 108,
+      "fat": 77,
+      "tdee": 2949,
+      "deficit": -1016,
+      "weight": 78.0,
+      "bfGarmin": 21.2,
+      "bfActual": 18.2,
+      "smm": 32.3,
+      "bodyWater": 57.6,
+      "exercise": "Deadlift day"
+    },
+    {
+      "day": 45,
+      "date": "Apr 05",
+      "weekday": "Sun",
+      "calories": 1812,
+      "protein": 214,
+      "carbs": 131,
+      "fat": 48,
+      "tdee": 2740,
+      "deficit": -928,
+      "weight": 78.0,
+      "bfGarmin": 22.0,
+      "bfActual": 19.0,
+      "smm": 32.3,
+      "bodyWater": 57.0,
+      "exercise": "Push day"
+    },
+    {
+      "day": 46,
+      "date": "Apr 06",
+      "weekday": "Mon",
+      "calories": 1791,
+      "protein": 208,
+      "carbs": 107,
+      "fat": 59,
+      "tdee": 2572,
+      "deficit": -781,
+      "weight": null,
+      "bfGarmin": null,
+      "bfActual": null,
+      "smm": null,
+      "bodyWater": null,
+      "exercise": "Cardio"
+    },
+    {
+      "day": 47,
+      "date": "Apr 07",
+      "weekday": "Tue",
+      "calories": 1832,
+      "protein": 218,
+      "carbs": 135,
+      "fat": 47,
+      "tdee": 2281,
+      "deficit": -449,
+      "weight": 78.2,
+      "bfGarmin": 21.3,
+      "bfActual": 18.3,
+      "smm": 32.3,
+      "bodyWater": 57.4,
+      "exercise": "Rest day"
+    },
+    {
+      "day": 48,
+      "date": "Apr 08",
+      "weekday": "Wed",
+      "calories": 2001,
+      "protein": 219,
+      "carbs": 126,
+      "fat": 69,
+      "tdee": 2808,
+      "deficit": -807,
+      "weight": null,
+      "bfGarmin": null,
+      "bfActual": null,
+      "smm": null,
+      "bodyWater": null,
+      "exercise": "Pull day"
+    },
+    {
+      "day": 49,
+      "date": "Apr 09",
+      "weekday": "Thu",
+      "calories": 1736,
+      "protein": 209,
+      "carbs": 132,
+      "fat": 40,
+      "tdee": 2741,
+      "deficit": -1005,
+      "weight": 78.3,
+      "bfGarmin": 21.6,
+      "bfActual": 18.6,
+      "smm": 32.4,
+      "bodyWater": 57.2,
+      "exercise": "Upper (half) - bench only"
     }
   ],
   "weekly": [
@@ -803,114 +922,119 @@
       "bfGarmin": 21.3,
       "bfActual": 18.3,
       "smm": 32.3
+    },
+    {
+      "week": 7,
+      "dates": "Apr 3-9",
+      "avgCal": 1991,
+      "avgProtein": 213,
+      "avgTdee": 2685,
+      "avgDeficit": -694,
+      "cumDeficit": -32840,
+      "weight": 78.0,
+      "bfGarmin": 21.5,
+      "bfActual": 18.5,
+      "smm": 32.3
     }
   ],
   "projections": {
     "deficitMath": {
-      "avgDeficit": -666,
-      "endBf": 15.75,
-      "endWeight": 75.0,
+      "avgDeficit": -670,
+      "endBf": 14.75,
+      "endWeight": 75.3,
       "label": "Deficit Math"
     },
     "observedRate": {
       "weeklyBfDrop": 0.5,
-      "endBf": 16.3,
-      "endWeight": 75.5,
+      "endBf": 17.0,
+      "endWeight": 76.5,
       "label": "Observed Rate"
     },
     "conservative": {
-      "weeklyBfDrop": 0.33,
-      "endBf": 17.0,
-      "endWeight": 76.0,
+      "weeklyBfDrop": 0.0,
+      "endBf": 18.5,
+      "endWeight": 77.5,
       "label": "Conservative"
     }
   },
   "analysis": {
-    "asOf": "Day 42, Week 6 complete (Apr 2, 2026)",
+    "asOf": "Day 49, Week 7 complete (Apr 9, 2026)",
     "goingWell": [
       {
-        "title": "Strongest deficit week of the cut",
-        "text": "Week 6 delivered -5,052 total deficit, exceeding the -700/day target at -722 avg. Seven consecutive deficit days, zero surplus days, protein above 200g every single day (range: 209-244g, avg 222g). First full week with no surplus days."
+        "title": "Week 7 hit -694 deficit, exactly on target",
+        "text": "Closing out 70% of the cut with -32,840 cumulative deficit. Choppy start (Day 43 surplus), clean finish. Day 44 immediately corrected with -1,016 (deadlift day, one of the largest deficits of the cut)."
       },
       {
-        "title": "The whoosh arrived on Day 42",
-        "text": "Weight dropped from 78.2 to 76.8 overnight -- a 1.4 kg drop in a single reading. Body water had climbed from 55.8% to 57.9% over several weeks as fat cells filled with water. The gap between deficit math and scale reality closed from 2.1 kg to 0.8 kg in one day."
+        "title": "SMM locked at 32.3 for 4 consecutive weeks",
+        "text": "Weeks 4-7 all at exactly 32.3 kg weekly average. Daily spot readings in Week 7 ranged 32.2-32.4, all within normal variance. Most cutters see 0.2-0.4 kg SMM decline over this timeframe. This is an unusually clean muscle preservation signal."
       },
       {
-        "title": "Muscle preservation remains strong",
-        "text": "SMM weekly average held at 32.3 kg for Week 6, consistent with the 32.2-32.5 range across the entire cut. At a cumulative deficit of ~28,000 cal, standard models predict ~10% lean mass loss. This cut has had essentially zero at the weekly average level."
+        "title": "Protein discipline at its peak",
+        "text": "All 7 days of Week 7 above 200g (range: 202-223g, avg 213g). Third consecutive week averaging above 210g. Weekly protein avg has been above 200g for every week of the cut."
       },
       {
-        "title": "No metabolic adaptation through 6 weeks",
-        "text": "TDEE weekly averages: 2,739, 2,759, 2,763, 2,761, 2,827, 2,727. Stable across 6 weeks. The body has not downregulated metabolism despite sustained deficit."
+        "title": "Course-correction pattern remains the defining strength",
+        "text": "Day 43 surplus (+126) was followed by Day 44 -1,016. The ability to recover hard from disruptions without spiraling has driven the 90% adherence rate (44 of 49 days in deficit)."
       },
       {
-        "title": "Adherence at 90.5%",
-        "text": "38 deficit days out of 42. Only 4 surplus days, all planned or social. None since Day 30. 12 consecutive deficit days to close (Days 31-42). Protein floor of 160g never broken (lowest: 176g, Day 4)."
+        "title": "No metabolic adaptation across 7 weeks",
+        "text": "TDEE weekly averages: 2,739, 2,759, 2,763, 2,761, 2,827, 2,727, 2,685. The Week 7 dip is rest day-driven, not adaptive thermogenesis. Body has not downregulated metabolism."
       },
       {
-        "title": "Smart self-regulation on fatigue",
-        "text": "After 14 consecutive active days, a strategic rest day was taken (Day 40) with a 51-min walk (longest of the cut), followed by recovered training the next day with the longest pull session of the cut (61 min). Listening to the body without abandoning the process."
+        "title": "Week 7 lowest cal AND lowest TDEE, still hit target",
+        "text": "Lowest avg cal week (1,991) and lowest avg TDEE (2,685), yet still hit -700 deficit target. Demonstrates that deficit is independent of absolute TDEE when intake discipline is maintained."
       },
       {
-        "title": "Recovery after disruption remains the defining pattern",
-        "text": "After social/maintenance days, deficit days of -996, -1,151, -1,021, -1,004, and -1,096 followed. After the rest day on Day 40 (-710), Day 41 came back with a pull session and -717 deficit. Course-correction without spiraling."
-      },
-      {
-        "title": "Garmin fitness age: 36.5 at chronological age 44",
-        "text": "All four contributing metrics on target: vigorous days (3+/week), vigorous minutes (75+/week), resting heart rate (54 bpm), body fat (21.8% Garmin)."
+        "title": "Rest day deficit management",
+        "text": "Day 47 rest day hit -449 despite eating 1,832 cal. Rest day TDEE of 2,281 was the lowest of Week 7 by a wide margin. Confirms rest days don't have to sabotage the deficit if intake is controlled around the lower TDEE ceiling."
       }
     ],
     "toWatch": [
       {
-        "title": "SMM on whoosh day needs monitoring",
-        "text": "Day 42 SMM read 32.0 kg vs weekly average of 32.3. BIA measures lean tissue partly through hydration, so a large water flush can temporarily depress SMM. If it bounces back to 32.2+ within 2-3 readings, it was noise. If it stays at 32.0 or drops, that's a flag."
+        "title": "BF% ticked up in Week 7 (18.3% to 18.5%)",
+        "text": "Weekly avg BF% rose from 18.3% to 18.5% (est. actual). Body water dropped from 57.5% to 57.3% as the body reestablished hydration equilibrium after the Day 42 whoosh. The BIA scale reads BF% higher when water is lower. Underneath the water noise, deficit math says ~0.6 kg of fat was lost this week."
       },
       {
-        "title": "Scale trajectory post-whoosh",
-        "text": "If weight stays around 76.5-77.5 in the coming days, the whoosh was real and permanent. If it bounces back above 78, it was a temporary fluctuation (less likely given the deficit math)."
+        "title": "Week 8 BF% is the critical data point",
+        "text": "If Week 8 shows a drop back to 18.3% or lower, the observed-rate model holds and the 17% target remains achievable. If it stays flat or rises, the model needs recalibration. The buffer has shrunk."
       },
       {
-        "title": "Refeed timing",
-        "text": "Last refeed was Day 29 (Mar 20) -- 13 days ago. With the heavy deficit this week and the rest day signals, a refeed in early Week 7 would be well-timed, especially before a heavy training day."
+        "title": "Refeed is overdue",
+        "text": "21 days since the last clean carb refeed (Day 29). Day 43's surplus was high-fat, not a clean refeed. The 7-10 day cadence has been broken. Early Week 8 on a training day is essential."
       },
       {
-        "title": "Fatigue management in Weeks 7-10",
-        "text": "The worn-down feeling on Day 40 was a useful signal. As the cut enters the final 4 weeks, recovery will become harder. Building in 1 true rest day per week may be worth formalizing."
+        "title": "Second whoosh likely in Weeks 8-9",
+        "text": "The pattern from Weeks 3-6 (slow water build, then release) may repeat. Body water in Weeks 8-9 will be the leading indicator."
       },
       {
-        "title": "Target trajectory has buffer",
-        "text": "1.0-1.3% actual BF remaining to hit 17% target. Weeks 8-10 can afford slightly lower deficits (-500 to -600) if energy drops without jeopardizing the goal."
+        "title": "Target trajectory has zero margin",
+        "text": "1.5% actual BF to go, 3 weeks left, -0.50%/wk needed. Tight but hittable. Weeks 8-10 have zero margin for slippage."
       }
     ],
     "observations": [
       {
-        "title": "The whoosh played out exactly as predicted",
-        "text": "Water retention was identified in Week 3, body water was tracked climbing from 55.8% to 57.9%, and the release was predicted for Weeks 6-7. It arrived on the final day of Week 6."
+        "title": "Body water remains the leading whoosh indicator",
+        "text": "The climb from 55.8% (early Week 2) to 58.0% (Day 43) predicted the first whoosh by 3+ weeks. Watching body water in Weeks 8-9 will signal the next potential whoosh."
       },
       {
-        "title": "Deficit progression shows a sustainable rhythm",
-        "text": "Weeks 1, 3, and 6 are the strongest (-5,014, -5,047, -5,052). After lighter weeks (2, 5), strong weeks follow (3, 6). This alternation prevents burnout."
+        "title": "Fat compression was the macro story of Week 7",
+        "text": "Day 43 hit 132g fat (one of the highest fat days of the cut). The remaining 6 days averaged just 55g fat to compensate. Week 7 avg landed at 72g, right on the cut average of 76g."
       },
       {
-        "title": "Week 6 compressed fat while keeping protein high",
-        "text": "First week to average below 2,100 cal (2,005) while keeping protein above 220g. Fat was the macro that compressed (64g avg vs 84g in Week 5). This is the correct macro to reduce when tightening calories."
+        "title": "Day 44 was one of the largest deficits of the cut",
+        "text": "-1,016 on a deadlift day. The pattern of biggest deficit days clustering after disruption days continues."
       },
       {
-        "title": "TDEE range widened with training/rest mix",
-        "text": "Week 6 TDEE range was 2,382-2,979 due to the mix of heavy training and rest days. The rest day TDEE of 2,382 confirmed that even without training, a walk keeps the deficit meaningful."
+        "title": "Weight dropped while BF% ticked up",
+        "text": "Weekly weight avg went 78.1 to 78.0 kg, but BF% avg went 21.3% to 21.5% (Garmin). When weight drops and BF% rises slightly, it's almost always water rebalancing, not muscle loss. SMM held at 32.3 confirms this."
       },
       {
-        "title": "New restaurants added without losing discipline",
-        "text": "Fuschia Urban Thai, Safadi, Tashas, and Kcal all entered rotation in Week 6. Expanding options without losing tracking discipline is a good sign for sustainability."
+        "title": "Visual progress held but didn't advance",
+        "text": "Day 49 photo shows the same shoulder/chest/V-taper development as Day 44. Midsection looks marginally smoother vs Day 44 -- consistent with water rebalancing masking ongoing fat loss. Lower belly remains the last holdout."
       },
       {
-        "title": "The biggest deficit days cluster in Weeks 4-6",
-        "text": "Day 26 (-1,151), Day 28 (-1,021), Day 32 (-1,004), Day 38 (-1,096). The ability to hit -1,000+ deficits has increased as the cut progressed, reflecting improved dietary discipline."
-      },
-      {
-        "title": "At current pace, 17% target will be beaten by 1-1.5%",
-        "text": "Projections put actual BF% at ~15.5-16% by May 1. This provides a buffer to ease the deficit in Weeks 8-10 if energy drops while still hitting the original goal."
+        "title": "Week 7 introduced new restaurant variety",
+        "text": "Soy Glaze Chicken added to rotation. Expanding meal variety while maintaining tracking discipline continues to support sustainability."
       }
     ]
   }

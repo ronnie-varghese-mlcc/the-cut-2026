@@ -382,24 +382,19 @@ function renderStats(data) {
   const cumDef = d.reduce((s,x) => s + x.deficit, 0);
   const fatLossKg = Math.abs(cumDef) / 7700;
 
-  // Rolling 7-day average from the most recent 7 days of data
-  const last7 = d.slice(-7);
-  function avgOf(field) {
-    const vals = last7.map(x => x[field]).filter(v => v != null);
-    if (vals.length === 0) return null;
-    return vals.reduce((s, v) => s + v, 0) / vals.length;
-  }
-
-  const r7Weight = avgOf('weight');
-  const r7Bf = avgOf('bfActual');
-  const r7Smm = avgOf('smm');
+  // Pull body comp from the latest weekly entry (hardcoded from Garmin 7-day screenshot)
+  const lastWeekEntry = w[w.length - 1];
+  const r7Weight = lastWeekEntry ? lastWeekEntry.weight : null;
+  const r7Bf = lastWeekEntry ? lastWeekEntry.bfActual : null;
+  const r7Smm = lastWeekEntry ? lastWeekEntry.smm : null;
+  const wkLabel = lastWeekEntry ? `Week ${lastWeekEntry.week} avg` : '';
 
   const cards = [
     {
       label: 'Weight',
       value: r7Weight != null ? fmt(r7Weight, 1) + ' kg' : '--',
       color: 'var(--blue)',
-      sub: `7-day avg / Baseline: ${fmt(m.startWeight, 1)} kg`,
+      sub: `${wkLabel} / Baseline: ${fmt(m.startWeight, 1)} kg`,
       tag: r7Weight != null ? sign(+(r7Weight - m.startWeight).toFixed(1)) + ' kg' : null,
       tagClass: r7Weight != null && r7Weight < m.startWeight ? 'tag-g' : 'tag-r'
     },
@@ -407,7 +402,7 @@ function renderStats(data) {
       label: 'Body Fat',
       value: r7Bf != null ? fmt(r7Bf, 1) + '%' : '--',
       color: 'var(--purple)',
-      sub: `7-day avg / Baseline: ${fmt(m.startBfActual, 1)}%`,
+      sub: `${wkLabel} / Baseline: ${fmt(m.startBfActual, 1)}%`,
       tag: r7Bf != null ? sign(+(r7Bf - m.startBfActual).toFixed(1)) + '%' : null,
       tagClass: r7Bf != null && r7Bf < m.startBfActual ? 'tag-g' : 'tag-r'
     },
@@ -415,7 +410,7 @@ function renderStats(data) {
       label: 'SMM',
       value: r7Smm != null ? fmt(r7Smm, 1) + ' kg' : '--',
       color: 'var(--green)',
-      sub: '7-day avg / Skeletal muscle',
+      sub: `${wkLabel} / Skeletal muscle`,
       tag: 'Preserved',
       tagClass: 'tag-g'
     },
@@ -437,10 +432,25 @@ function renderStats(data) {
     },
     {
       label: 'Fat Lost',
-      value: fmt(fatLossKg, 1) + ' kg',
+      value: (function() {
+        if (r7Weight == null || r7Bf == null) return fmt(fatLossKg, 1) + ' kg';
+        const startFat = m.startWeight * m.startBfActual / 100;
+        const currentFat = r7Weight * r7Bf / 100;
+        const actualLost = startFat - currentFat;
+        return fmt(actualLost, 1) + ' kg';
+      })(),
       color: 'var(--cyan)',
-      sub: `From ${fmt(Math.abs(cumDef))} cal deficit`,
-      tag: fmt(fatLossKg / (m.startWeight * m.startBfActual / 100) * 100, 0) + '% of starting fat',
+      sub: (function() {
+        if (r7Weight == null || r7Bf == null) return `From ${fmt(Math.abs(cumDef))} cal deficit`;
+        return `Projected (deficit): ${fmt(fatLossKg, 1)} kg`;
+      })(),
+      tag: (function() {
+        if (r7Weight == null || r7Bf == null) return null;
+        const startFat = m.startWeight * m.startBfActual / 100;
+        const currentFat = r7Weight * r7Bf / 100;
+        const actualLost = startFat - currentFat;
+        return fmt(actualLost / startFat * 100, 0) + '% of starting fat';
+      })(),
       tagClass: 'tag-b'
     }
   ];

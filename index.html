@@ -222,15 +222,15 @@ body.is-mobile .tbl th,body.is-mobile .tbl td{padding:8px 6px;font-size:11px}
 <div class="wrap" id="app">
   <!-- Header -->
   <div class="hdr">
-    <h1>THE CUT</h1>
-    <div class="sub">10-Week Body Recomposition</div>
-    <div class="dates">Feb 20 -- May 1, 2026</div>
+    <h1 id="hdrTitle">--</h1>
+    <div class="sub" id="hdrSub">--</div>
+    <div class="dates" id="hdrDates">--</div>
   </div>
 
   <!-- About -->
   <div class="summary-box">
     <div class="summary-label">About</div>
-    <p class="summary-text">10-week structured cut (Feb 20 -- May 1, 2026). Targeting 17% body fat through caloric deficit while preserving skeletal muscle mass. Tracking daily calories, macros, TDEE, and body composition via Garmin BIA. Protein floor: 160g/day. Training: upper/lower split with daily cardio. Baselines: 79.6 kg / 20.3% BF / 32.7 kg SMM.</p>
+    <p class="summary-text" id="aboutText">--</p>
   </div>
 
   <!-- Current Progress -->
@@ -247,7 +247,7 @@ body.is-mobile .tbl th,body.is-mobile .tbl td{padding:8px 6px;font-size:11px}
     </div>
     <div class="prog-track"><div class="prog-fill" id="progBar" style="width:0%"></div></div>
     <div class="prog-bot">
-      <span id="progDays">Day -- of 70</span>
+      <span id="progDays">Day --</span>
       <span id="progRemain">-- days left</span>
     </div>
   </div>
@@ -306,10 +306,11 @@ body.is-mobile .tbl th,body.is-mobile .tbl td{padding:8px 6px;font-size:11px}
   </div>
   <div class="panel" id="panel-projection">
     <div class="panel-t-row">
-      <div class="panel-t">Projection to May 1</div>
+      <div class="panel-t" id="projTitle">Projection</div>
       <div class="proj-toggles">
-        <button class="proj-tog on" data-group="bf" id="togBf"><span class="tog-dot bf"></span>BF%</button>
-        <button class="proj-tog on" data-group="wt" id="togWt"><span class="tog-dot wt"></span>Weight</button>
+        <button class="proj-tog on" data-group="primary" id="togPrimary"><span class="tog-dot bf"></span><span id="togPrimaryLabel">Primary</span></button>
+        <button class="proj-tog on" data-group="secondary" id="togSecondary"><span class="tog-dot wt"></span><span id="togSecondaryLabel">Secondary</span></button>
+        <button class="proj-tog" data-group="deficit" id="togDeficit"><span class="tog-dot energy"></span>Deficit Math</button>
       </div>
     </div>
     <div class="chart-box"><canvas id="chart-projection"></canvas></div>
@@ -362,6 +363,15 @@ loadData();
 // ==================== HELPERS ====================
 const fmt = (n, d=0) => n != null ? n.toLocaleString(undefined, {minimumFractionDigits:d,maximumFractionDigits:d}) : '--';
 const sign = n => n > 0 ? '+'+fmt(n) : fmt(n);
+
+// ==================== HEADER & ABOUT ====================
+function renderHeader(meta) {
+  document.getElementById('hdrTitle').textContent = meta.programName || 'PROGRAM';
+  document.getElementById('hdrSub').textContent = meta.programType || '';
+  document.getElementById('hdrDates').textContent = meta.dateRange || '';
+  document.getElementById('aboutText').textContent = meta.aboutText || '';
+  document.title = meta.programName || 'Tracker';
+}
 
 // ==================== PROGRESS ====================
 function renderProgress(meta) {
@@ -749,178 +759,221 @@ function chartProtein(daily) {
 
 function chartProjection(weekly, projections, meta, daily) {
   const ctx = document.getElementById('chart-projection').getContext('2d');
-  const bfData = weekly.map(w => w.bfActual);
-  const weightData = weekly.map(w => w.weight);
 
-  const lastBf = bfData[bfData.length - 1];
-  const lastWeight = weightData[weightData.length - 1];
+  const totalWeeks = Math.ceil(meta.totalDays / 7);
   const lastWeek = weekly.length;
   const projWeeks = [];
-  const targetLine = [];
+  for (let i = 1; i <= totalWeeks; i++) projWeeks.push('Wk ' + i);
 
-  // Three BF% projection models (fallback to old format)
-  const obs = projections.observedRate || projections.currentPace;
-  const def = projections.deficitMath || projections.currentPace;
-  const con = projections.conservative || projections.targetPace;
+  // Update title and toggle labels from metadata
+  const startDate = new Date(meta.startDate);
+  const endDate = new Date(meta.endDate);
+  const endLabel = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  document.getElementById('projTitle').textContent = 'Projection to ' + endLabel;
+  document.getElementById('togPrimaryLabel').textContent = projections.primaryLabel || 'Primary';
+  document.getElementById('togSecondaryLabel').textContent = projections.secondaryLabel || 'Secondary';
 
-  const projBfObs = [];
-  const projBfDef = [];
-  const projBfCon = [];
-  const projWtObs = [];
+  const primaryMetric = projections.primaryMetric || 'bfActual';
+  const secondaryMetric = projections.secondaryMetric || 'weight';
+  const primaryUnit = projections.primaryUnit || '';
+  const secondaryUnit = projections.secondaryUnit || '';
 
-  // Deficit-projected weight and BF% per completed week
-  const startFatMass = meta.startWeight * meta.startBfActual / 100;
-  const defProjWeightData = weekly.map(w => {
-    const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
-    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
-    return +(meta.startWeight + cumDef / 7700).toFixed(1);
-  });
-  const defProjBfData = weekly.map((w, i) => {
-    const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
-    const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
-    const newFatMass = startFatMass + cumDef / 7700;
-    return +(newFatMass / defProjWeightData[i] * 100).toFixed(1);
-  });
+  // Actual data series
+  const actualPrimary = weekly.map(w => w[primaryMetric]);
+  const actualSecondary = weekly.map(w => w[secondaryMetric]);
+  const lastActualPrimary = actualPrimary[actualPrimary.length - 1];
+  const lastActualSecondary = actualSecondary[actualSecondary.length - 1];
 
-  for (let i = 1; i <= 10; i++) {
-    projWeeks.push('Wk ' + i);
-    targetLine.push(meta.targetBf);
-    if (i <= lastWeek) {
-      projBfObs.push(null); projBfDef.push(null); projBfCon.push(null); projWtObs.push(null);
-    } else {
-      const weeksLeft = 10 - lastWeek;
-      const weekIdx = i - lastWeek;
-      projBfObs.push(+(lastBf - (lastBf - obs.endBf) * (weekIdx / weeksLeft)).toFixed(1));
-      projBfDef.push(+(lastBf - (lastBf - def.endBf) * (weekIdx / weeksLeft)).toFixed(1));
-      projBfCon.push(+(lastBf - (lastBf - con.endBf) * (weekIdx / weeksLeft)).toFixed(1));
-      const endWt = obs.endWeight || 75.5;
-      projWtObs.push(+(lastWeight - (lastWeight - endWt) * (weekIdx / weeksLeft)).toFixed(1));
-    }
+  // Helper: compute weight from BF% using lean preservation assumption
+  // weight = lean_mass / (1 - bf%/100)
+  // lean_mass(week) = baseline_lean - leanLossPerWeek * week
+  const leanLossPerWeek = projections.leanLossPerWeek || 0;
+  const baselineLean = meta.startWeight * (1 - meta.startBfActual / 100);
+  function deriveSecondary(week, primaryVal) {
+    if (primaryMetric !== 'bfActual') return null;
+    const leanAtWeek = baselineLean - (leanLossPerWeek * week);
+    return +(leanAtWeek / (1 - primaryVal / 100)).toFixed(1);
   }
-  projBfObs[lastWeek - 1] = lastBf;
-  projBfDef[lastWeek - 1] = lastBf;
-  projBfCon[lastWeek - 1] = lastBf;
-  projWtObs[lastWeek - 1] = lastWeight;
 
-  // BF: 0=Actual, 1=Observed, 2=Deficit Math, 3=Conservative, 4=Deficit-Proj historical, 5=17% Target
-  // Wt: 6=Actual, 7=Projected, 8=Deficit-Proj historical
-  const bfIndices = [0, 1, 2, 3, 4, 5];
-  const wtIndices = [6, 7, 8];
+  // Build scenario datasets
+  const scenarios = projections.scenarios || [];
+  const datasets = [];
+
+  // 0: Actual primary
+  datasets.push({
+    label: 'Actual ' + projections.primaryLabel,
+    data: [...actualPrimary, ...new Array(totalWeeks - actualPrimary.length).fill(null)],
+    borderColor: '#a78bfa',
+    backgroundColor: 'rgba(167,139,250,.1)',
+    fill: true, tension: 0.3, borderWidth: 2.5,
+    pointRadius: 4, pointBackgroundColor: '#a78bfa',
+    pointBorderColor: '#111116', pointBorderWidth: 2,
+    spanGaps: false, yAxisID: 'yPrimary',
+    _group: 'primary'
+  });
+
+  // Scenario primary projection lines
+  scenarios.forEach((sc, scIdx) => {
+    const arr = new Array(totalWeeks).fill(null);
+    // Anchor the projection at the last actual data point
+    arr[lastWeek - 1] = lastActualPrimary;
+    sc.weeklyProjections.forEach(p => {
+      if (p.week >= 1 && p.week <= totalWeeks) {
+        arr[p.week - 1] = p.primary;
+      }
+    });
+    datasets.push({
+      label: sc.name + ' ' + projections.primaryLabel,
+      data: arr,
+      borderColor: sc.color,
+      borderDash: sc.isPrimary ? [6, 4] : [4, 4],
+      tension: 0.3, borderWidth: sc.isPrimary ? 2 : 1.5,
+      pointRadius: 2, pointBackgroundColor: sc.color,
+      spanGaps: true, fill: false, yAxisID: 'yPrimary',
+      _group: 'primary'
+    });
+  });
+
+  // Target zone (primary) - rendered as two lines for shading
+  const targetZone = projections.targetZone;
+  if (targetZone) {
+    datasets.push({
+      label: 'Target Zone Top',
+      data: new Array(totalWeeks).fill(targetZone.max),
+      borderColor: 'rgba(45,212,160,.0)',
+      backgroundColor: 'rgba(45,212,160,.08)',
+      borderWidth: 0, pointRadius: 0,
+      fill: '+1', yAxisID: 'yPrimary',
+      _group: 'primary'
+    });
+    datasets.push({
+      label: 'Target Zone Bottom',
+      data: new Array(totalWeeks).fill(targetZone.min),
+      borderColor: 'rgba(45,212,160,.4)',
+      borderDash: [3, 3], borderWidth: 1,
+      pointRadius: 0, fill: false, yAxisID: 'yPrimary',
+      _group: 'primary'
+    });
+  }
+
+  // Actual secondary
+  datasets.push({
+    label: 'Actual ' + projections.secondaryLabel,
+    data: [...actualSecondary, ...new Array(totalWeeks - actualSecondary.length).fill(null)],
+    borderColor: '#4d8ff7', tension: 0.3, borderWidth: 2,
+    pointRadius: 3, pointBackgroundColor: '#4d8ff7',
+    pointBorderColor: '#111116', pointBorderWidth: 1.5,
+    spanGaps: false, fill: false, yAxisID: 'ySecondary',
+    _group: 'secondary'
+  });
+
+  // Scenario secondary projection lines (auto-derived from primary if not provided)
+  scenarios.forEach((sc, scIdx) => {
+    const arr = new Array(totalWeeks).fill(null);
+    arr[lastWeek - 1] = lastActualSecondary;
+    sc.weeklyProjections.forEach(p => {
+      if (p.week >= 1 && p.week <= totalWeeks) {
+        const secVal = p.secondary != null ? p.secondary : deriveSecondary(p.week, p.primary);
+        if (secVal != null) arr[p.week - 1] = secVal;
+      }
+    });
+    datasets.push({
+      label: sc.name + ' ' + projections.secondaryLabel,
+      data: arr,
+      borderColor: '#4d8ff7',
+      borderDash: sc.isPrimary ? [6, 4] : [4, 4],
+      tension: 0.3, borderWidth: sc.isPrimary ? 1.5 : 1.2,
+      pointRadius: 2, pointBackgroundColor: '#4d8ff7',
+      spanGaps: true, fill: false, yAxisID: 'ySecondary',
+      _group: 'secondary'
+    });
+  });
+
+  // Deficit math line (off by default)
+  if (primaryMetric === 'bfActual') {
+    const startFatMass = meta.startWeight * meta.startBfActual / 100;
+    const defProjData = new Array(totalWeeks).fill(null);
+    weekly.forEach(w => {
+      const daysUpTo = daily.filter(d => Math.ceil(d.day / 7) <= w.week);
+      const cumDef = daysUpTo.reduce((s, x) => s + x.deficit, 0);
+      const projWt = meta.startWeight + cumDef / 7700;
+      const newFatMass = startFatMass + cumDef / 7700;
+      defProjData[w.week - 1] = +(newFatMass / projWt * 100).toFixed(1);
+    });
+    datasets.push({
+      label: 'Deficit Math ' + projections.primaryLabel,
+      data: defProjData,
+      borderColor: 'rgba(235,184,77,.5)',
+      borderDash: [3, 3], tension: 0.3, borderWidth: 1.5,
+      pointRadius: 1.5, pointBackgroundColor: 'rgba(235,184,77,.5)',
+      spanGaps: false, fill: false, yAxisID: 'yPrimary',
+      hidden: true,
+      _group: 'deficit'
+    });
+  }
+
+  // Compute axis ranges from data
+  const allPrimary = datasets.filter(d => d._group === 'primary' && d.label !== 'Target Zone Top' && d.label !== 'Target Zone Bottom').flatMap(d => d.data).filter(v => v != null);
+  const allSecondary = datasets.filter(d => d._group === 'secondary').flatMap(d => d.data).filter(v => v != null);
+  const pMin = Math.floor(Math.min(...allPrimary, targetZone ? targetZone.min : Infinity) - 1);
+  const pMax = Math.ceil(Math.max(...allPrimary, targetZone ? targetZone.max : -Infinity) + 1);
+  const sMin = Math.floor(Math.min(...allSecondary) - 1);
+  const sMax = Math.ceil(Math.max(...allSecondary) + 1);
 
   const projChart = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels: projWeeks,
-      datasets: [
-        {
-          label: 'Actual BF%',
-          data: [...bfData, ...new Array(10 - bfData.length).fill(null)],
-          borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,.1)',
-          fill: true, tension: 0.3, borderWidth: 2.5,
-          pointRadius: 4, pointBackgroundColor: '#a78bfa',
-          pointBorderColor: '#111116', pointBorderWidth: 2,
-          spanGaps: false, yAxisID: 'y'
-        },
-        {
-          label: 'Observed Rate',
-          data: projBfObs,
-          borderColor: 'rgba(167,139,250,.5)',
-          borderDash: [6, 4], tension: 0.3, borderWidth: 2,
-          pointRadius: 2, pointBackgroundColor: 'rgba(167,139,250,.5)',
-          spanGaps: false, yAxisID: 'y'
-        },
-        {
-          label: 'Deficit Math',
-          data: projBfDef,
-          borderColor: 'rgba(45,212,160,.45)',
-          borderDash: [4, 4], tension: 0.3, borderWidth: 1.5,
-          pointRadius: 2, pointBackgroundColor: 'rgba(45,212,160,.4)',
-          spanGaps: false, yAxisID: 'y'
-        },
-        {
-          label: 'Conservative',
-          data: projBfCon,
-          borderColor: 'rgba(235,184,77,.4)',
-          borderDash: [4, 4], tension: 0.3, borderWidth: 1.5,
-          pointRadius: 2, pointBackgroundColor: 'rgba(235,184,77,.4)',
-          spanGaps: false, yAxisID: 'y'
-        },
-        {
-          label: 'Deficit-Proj BF%',
-          data: [...defProjBfData, ...new Array(10 - defProjBfData.length).fill(null)],
-          borderColor: 'rgba(45,212,160,.3)',
-          borderDash: [3, 3], tension: 0.3, borderWidth: 1,
-          pointRadius: 1.5, pointBackgroundColor: 'rgba(45,212,160,.3)',
-          spanGaps: false, fill: false, yAxisID: 'y'
-        },
-        {
-          label: '17% Target',
-          data: targetLine,
-          borderColor: 'rgba(240,96,96,.3)',
-          borderDash: [3, 3], borderWidth: 1, pointRadius: 0,
-          fill: false, yAxisID: 'y'
-        },
-        {
-          label: 'Actual Weight',
-          data: [...weightData, ...new Array(10 - weightData.length).fill(null)],
-          borderColor: '#4d8ff7', tension: 0.3, borderWidth: 2,
-          pointRadius: 3, pointBackgroundColor: '#4d8ff7',
-          pointBorderColor: '#111116', pointBorderWidth: 1.5,
-          spanGaps: false, fill: false, yAxisID: 'y1'
-        },
-        {
-          label: 'Projected Weight',
-          data: projWtObs,
-          borderColor: 'rgba(77,143,247,.35)',
-          borderDash: [6, 4], tension: 0.3, borderWidth: 1.5,
-          pointRadius: 2, pointBackgroundColor: 'rgba(77,143,247,.35)',
-          spanGaps: false, fill: false, yAxisID: 'y1'
-        },
-        {
-          label: 'Deficit-Proj Wt',
-          data: [...defProjWeightData, ...new Array(10 - defProjWeightData.length).fill(null)],
-          borderColor: 'rgba(45,212,160,.25)',
-          borderDash: [3, 3], tension: 0.3, borderWidth: 1,
-          pointRadius: 1.5, pointBackgroundColor: 'rgba(45,212,160,.25)',
-          spanGaps: false, fill: false, yAxisID: 'y1'
-        }
-      ]
-    },
+    data: { labels: projWeeks, datasets },
     options: deepMerge(chartDefaults, {
       plugins: {
         legend: { display: true, position: 'top', align: 'end',
-          labels: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#9898a8', boxWidth: 8, padding: 10, usePointStyle: true, pointStyle: 'circle' }
+          labels: {
+            font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#9898a8',
+            boxWidth: 8, padding: 10, usePointStyle: true, pointStyle: 'circle',
+            filter: item => !item.text.includes('Target Zone')
+          }
         },
         tooltip: { callbacks: { label: ctx => {
           if (ctx.raw == null) return '';
-          const isWeight = ctx.dataset.yAxisID === 'y1';
-          return (ctx.dataset.label || '') + ': ' + (isWeight ? ctx.raw.toFixed(1) + ' kg' : ctx.raw.toFixed(1) + '%');
+          if (ctx.dataset.label.includes('Target Zone')) return '';
+          const isSecondary = ctx.dataset.yAxisID === 'ySecondary';
+          const unit = isSecondary ? secondaryUnit : primaryUnit;
+          return ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' ' + unit;
         }}}
       },
       scales: {
-        x: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#58586a' } },
-        y: { position: 'left', min: 14, max: 22, grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#a78bfa', callback: v => v + '%' } },
-        y1: { position: 'right', min: 73, max: 81, grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#4d8ff7', callback: v => v + ' kg' } }
+        x: { grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#58586a' } },
+        yPrimary: { position: 'left', min: pMin, max: pMax, grid: { color: 'rgba(34,34,48,.3)', drawBorder: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#a78bfa', callback: v => v + primaryUnit } },
+        ySecondary: { position: 'right', min: sMin, max: sMax, grid: { display: false }, ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 }, color: '#4d8ff7', callback: v => v + ' ' + secondaryUnit } }
       }
     })
   });
 
   // Toggle logic
   function toggleGroup(group, show) {
-    const indices = group === 'bf' ? bfIndices : wtIndices;
-    indices.forEach(i => { projChart.setDatasetVisibility(i, show); });
-    if (group === 'bf') { projChart.options.scales.y.display = show; }
-    else { projChart.options.scales.y1.display = show; }
+    projChart.data.datasets.forEach((ds, i) => {
+      if (ds._group === group) {
+        projChart.setDatasetVisibility(i, show);
+      }
+    });
+    if (group === 'primary') projChart.options.scales.yPrimary.display = show;
+    if (group === 'secondary') projChart.options.scales.ySecondary.display = show;
     projChart.update();
   }
 
-  document.getElementById('togBf').addEventListener('click', function() {
+  // Deficit starts hidden
+  toggleGroup('deficit', false);
+
+  document.getElementById('togPrimary').addEventListener('click', function() {
     this.classList.toggle('on');
-    toggleGroup('bf', this.classList.contains('on'));
+    toggleGroup('primary', this.classList.contains('on'));
   });
-  document.getElementById('togWt').addEventListener('click', function() {
+  document.getElementById('togSecondary').addEventListener('click', function() {
     this.classList.toggle('on');
-    toggleGroup('wt', this.classList.contains('on'));
+    toggleGroup('secondary', this.classList.contains('on'));
+  });
+  document.getElementById('togDeficit').addEventListener('click', function() {
+    this.classList.toggle('on');
+    toggleGroup('deficit', this.classList.contains('on'));
   });
 }
 
@@ -1258,17 +1311,27 @@ function renderAnalysis(analysis) {
 function renderProgressSummary(data) {
   const d = data.daily;
   const m = data.meta;
+  const w = data.weekly;
   const cumDef = d.reduce((s,x) => s + x.deficit, 0);
   const fatLossKg = Math.abs(cumDef) / 7700;
-  const lastWeight = [...d].reverse().find(x => x.weight != null);
-  const lastBf = [...d].reverse().find(x => x.bfActual != null);
-  const lastSmm = [...d].reverse().find(x => x.smm != null);
-  const wt = lastWeight ? lastWeight.weight : null;
-  const bf = lastBf ? lastBf.bfActual : null;
-  const smm = lastSmm ? lastSmm.smm : null;
+
+  // Use latest weekly entry (Garmin 7-day average) as source of truth
+  const lastWeek = w[w.length - 1];
+  const wt = lastWeek ? lastWeek.weight : null;
+  const bf = lastWeek ? lastWeek.bfActual : null;
+  const smm = lastWeek ? lastWeek.smm : null;
+  const baselineSmm = d[0] && d[0].smm != null ? d[0].smm : 32.7;
   const wtDelta = wt != null ? (wt - m.startWeight).toFixed(1) : null;
   const bfDelta = bf != null ? (bf - m.startBfActual).toFixed(1) : null;
-  const smmDelta = smm != null ? (smm - 32.7).toFixed(1) : null;
+  const smmDelta = smm != null ? (smm - baselineSmm).toFixed(1) : null;
+
+  // Derive a friendly end-date label
+  let endLabel = 'program end';
+  if (m.endDate) {
+    try {
+      endLabel = new Date(m.endDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    } catch(e) {}
+  }
 
   const lines = [];
   lines.push(`Day ${m.daysComplete} of ${m.totalDays} (${Math.round(m.daysComplete/m.totalDays*100)}%).`);
@@ -1277,19 +1340,27 @@ function renderProgressSummary(data) {
   if (bf != null) lines.push(`Estimated body fat: ${bf.toFixed(1)}% (${bfDelta > 0 ? '+' : ''}${bfDelta}% from ${m.startBfActual}%).`);
   if (smm != null) lines.push(`SMM: ${smm.toFixed(1)} kg (${smmDelta > 0 ? '+' : ''}${smmDelta} kg) -- muscle preserved.`);
 
-  // Check TDEE trend
-  const w = data.weekly;
+  // TDEE trend
   if (w.length >= 2) {
     const firstTdee = w[0].avgTdee;
     const lastTdee = w[w.length-1].avgTdee;
-    if (lastTdee >= firstTdee) {
-      lines.push('TDEE trending upward, no metabolic adaptation detected.');
+    if (lastTdee >= firstTdee * 0.97) {
+      lines.push('No metabolic adaptation detected (TDEE stable across all weeks).');
     }
   }
 
+  // Projection summary from primary scenario
   const proj = data.projections;
-  if (proj && proj.currentPace) {
-    lines.push(`On pace for ${proj.currentPace.endBf}% BF by May 1, ahead of the ${m.targetBf}% target.`);
+  if (proj && proj.scenarios && proj.scenarios.length > 0) {
+    const primary = proj.scenarios.find(s => s.isPrimary) || proj.scenarios[0];
+    if (primary.weeklyProjections && primary.weeklyProjections.length > 0) {
+      const final = primary.weeklyProjections[primary.weeklyProjections.length - 1];
+      const target = m.targetBf;
+      const trajectory = final.primary <= target
+        ? `On pace for ${final.primary}% BF by ${endLabel} (${primary.name} model), at or below the ${target}% target.`
+        : `On pace for ${final.primary}% BF by ${endLabel} (${primary.name} model). Target: ${target}%.`;
+      lines.push(trajectory);
+    }
   }
 
   document.getElementById('progressText').textContent = lines.join(' ');
@@ -1303,6 +1374,7 @@ if (window.screen && window.screen.width <= 900) {
 
 // ==================== INIT ====================
 function init() {
+  renderHeader(DATA.meta);
   renderProgressSummary(DATA);
   renderProgress(DATA.meta);
   renderStats(DATA);

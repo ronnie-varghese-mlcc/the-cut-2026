@@ -1,13 +1,17 @@
 {
   "meta": {
     "startDate": "2026-02-20",
-    "endDate": "2026-05-01",
-    "totalDays": 70,
+    "endDate": "2026-05-28",
+    "totalDays": 98,
     "daysComplete": 49,
     "startWeight": 79.6,
     "startBfActual": 20.3,
-    "targetBf": 17.0,
-    "lastUpdated": "2026-04-10"
+    "targetBf": 16.0,
+    "lastUpdated": "2026-04-13",
+    "programName": "THE CUT",
+    "programType": "14-Week Body Recomposition",
+    "dateRange": "Feb 20 -- May 28, 2026",
+    "aboutText": "14-week structured cut (Feb 20 -- May 28, 2026). Targeting ~16% actual body fat through caloric deficit while preserving skeletal muscle mass. Tracking daily calories, macros, TDEE, and body composition via Garmin BIA. Protein floor: 160g/day. Training: upper/lower split with daily cardio. Baselines: 79.6 kg / 20.3% BF / 32.7 kg SMM."
   },
   "daily": [
     {
@@ -938,27 +942,92 @@
     }
   ],
   "projections": {
-    "deficitMath": {
-      "avgDeficit": -670,
-      "endBf": 14.75,
-      "endWeight": 75.3,
-      "label": "Deficit Math"
+    "primaryMetric": "bfActual",
+    "primaryLabel": "Body Fat %",
+    "primaryUnit": "%",
+    "secondaryMetric": "weight",
+    "secondaryLabel": "Weight",
+    "secondaryUnit": "kg",
+    "targetZone": {
+      "min": 16.0,
+      "max": 17.0
     },
-    "observedRate": {
-      "weeklyBfDrop": 0.5,
-      "endBf": 17.0,
-      "endWeight": 76.5,
-      "label": "Observed Rate"
-    },
-    "conservative": {
-      "weeklyBfDrop": 0.0,
-      "endBf": 18.5,
-      "endWeight": 77.5,
-      "label": "Conservative"
-    }
+    "leanLossPerWeek": 0.029,
+    "scenarios": [
+      {
+        "name": "Conservative",
+        "color": "#a78bfa",
+        "isPrimary": true,
+        "weeklyProjections": [
+          {
+            "week": 8,
+            "primary": 18.1
+          },
+          {
+            "week": 9,
+            "primary": 17.8
+          },
+          {
+            "week": 10,
+            "primary": 17.4
+          },
+          {
+            "week": 11,
+            "primary": 17.1
+          },
+          {
+            "week": 12,
+            "primary": 16.7
+          },
+          {
+            "week": 13,
+            "primary": 16.4
+          },
+          {
+            "week": 14,
+            "primary": 16.1
+          }
+        ]
+      },
+      {
+        "name": "Optimistic",
+        "color": "#2dd4a0",
+        "isPrimary": false,
+        "weeklyProjections": [
+          {
+            "week": 8,
+            "primary": 18.0
+          },
+          {
+            "week": 9,
+            "primary": 17.5
+          },
+          {
+            "week": 10,
+            "primary": 17.0
+          },
+          {
+            "week": 11,
+            "primary": 16.5
+          },
+          {
+            "week": 12,
+            "primary": 16.0
+          },
+          {
+            "week": 13,
+            "primary": 15.5
+          },
+          {
+            "week": 14,
+            "primary": 15.2
+          }
+        ]
+      }
+    ]
   },
   "analysis": {
-    "asOf": "Day 49, Week 7 complete (Apr 9, 2026)",
+    "asOf": "Day 49, Week 7 complete (Apr 9, 2026) -- Program extended to 14 weeks (May 28)",
     "goingWell": [
       {
         "title": "Week 7 hit -694 deficit, exactly on target",

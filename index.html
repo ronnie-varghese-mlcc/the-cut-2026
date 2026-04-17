@@ -297,7 +297,7 @@ body.is-mobile .tbl th,body.is-mobile .tbl td{padding:8px 6px;font-size:11px}
     <div class="chart-box"><canvas id="chart-bodycomp"></canvas></div>
   </div>
   <div class="panel" id="panel-deficit">
-    <div class="panel-t">Daily Caloric Deficit</div>
+    <div class="panel-t">Daily Adjusted Deficit</div>
     <div class="chart-box"><canvas id="chart-deficit"></canvas></div>
   </div>
   <div class="panel" id="panel-protein">
@@ -425,12 +425,12 @@ function renderStats(data) {
       tagClass: 'tag-g'
     },
     {
-      label: 'Avg Deficit',
+      label: 'Adj. Deficit*',
       value: fmt(avgDeficit) + ' cal',
       color: 'var(--red)',
-      sub: 'Per day average',
-      tag: avgDeficit < -600 ? 'On track' : 'Moderate',
-      tagClass: avgDeficit < -600 ? 'tag-g' : 'tag-a'
+      sub: 'TDEE x 0.85 adjusted',
+      tag: avgDeficit < -200 ? 'On track' : 'Light',
+      tagClass: avgDeficit < -200 ? 'tag-g' : 'tag-a'
     },
     {
       label: 'Avg Protein',
@@ -1019,7 +1019,7 @@ function chartWeekly(weekly) {
           order: 2
         },
         {
-          label: 'Avg Deficit',
+          label: 'Adj. Deficit',
           type: 'line',
           data: weekly.map(w => w.avgDeficit),
           borderColor: '#f06060',
@@ -1183,7 +1183,7 @@ function renderWeeklyTable(weekly) {
       <table class="tbl" id="weeklyTbl">
         <thead><tr>
           <th>Week</th><th class="col-hide">Dates</th><th>Avg Cal</th><th class="col-hide">Avg Protein</th>
-          <th>Avg TDEE</th><th>Avg Deficit</th><th class="col-hide">Weight</th><th>BF%</th><th>&#916;</th><th class="col-hide">SMM</th>
+          <th>Avg TDEE</th><th>Adj. Deficit</th><th class="col-hide">Weight</th><th>BF%</th><th>&#916;</th><th class="col-hide">SMM</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>

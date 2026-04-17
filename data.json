@@ -1,17 +1,19 @@
 {
   "meta": {
+    "programName": "THE CUT",
+    "programType": "18-Week Body Recomposition",
+    "dateRange": "Feb 20 -- June 25, 2026",
+    "aboutText": "18-week structured cut (Feb 20 -- June 25, 2026). TDEE recalibrated at Week 8 with -15% discount applied to Garmin readings. Targeting ~16% actual body fat while preserving skeletal muscle mass. Tracking daily calories, macros, adjusted TDEE, and body composition via Garmin BIA. Protein floor: 160g/day. Training: upper/lower/push/pull split with daily cardio. Baselines: 79.6 kg / 20.3% BF / 32.7 kg SMM.",
     "startDate": "2026-02-20",
-    "endDate": "2026-05-28",
-    "totalDays": 98,
-    "daysComplete": 49,
+    "endDate": "2026-06-25",
+    "totalDays": 126,
+    "daysComplete": 56,
     "startWeight": 79.6,
     "startBfActual": 20.3,
     "targetBf": 16.0,
-    "lastUpdated": "2026-04-13",
-    "programName": "THE CUT",
-    "programType": "14-Week Body Recomposition",
-    "dateRange": "Feb 20 -- May 28, 2026",
-    "aboutText": "14-week structured cut (Feb 20 -- May 28, 2026). Targeting ~16% actual body fat through caloric deficit while preserving skeletal muscle mass. Tracking daily calories, macros, TDEE, and body composition via Garmin BIA. Protein floor: 160g/day. Training: upper/lower split with daily cardio. Baselines: 79.6 kg / 20.3% BF / 32.7 kg SMM."
+    "lastUpdated": "2026-04-17",
+    "tdeeDiscount": 0.15,
+    "startFatMass": 18.55
   },
   "daily": [
     {
@@ -23,7 +25,7 @@
       "carbs": 151,
       "fat": 30,
       "tdee": 2596,
-      "deficit": -946,
+      "deficit": -557,
       "weight": 79.6,
       "bfGarmin": 23.3,
       "bfActual": 20.3,
@@ -40,7 +42,7 @@
       "carbs": 290,
       "fat": 117,
       "tdee": 3023,
-      "deficit": 90,
+      "deficit": 543,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -57,7 +59,7 @@
       "carbs": 152,
       "fat": 41,
       "tdee": 2799,
-      "deficit": -1014,
+      "deficit": -594,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -74,7 +76,7 @@
       "carbs": 87,
       "fat": 53,
       "tdee": 2429,
-      "deficit": -900,
+      "deficit": -536,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -91,7 +93,7 @@
       "carbs": 156,
       "fat": 52,
       "tdee": 2800,
-      "deficit": -908,
+      "deficit": -488,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -108,7 +110,7 @@
       "carbs": 152,
       "fat": 69,
       "tdee": 2592,
-      "deficit": -567,
+      "deficit": -178,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -125,7 +127,7 @@
       "carbs": 120,
       "fat": 102,
       "tdee": 2935,
-      "deficit": -769,
+      "deficit": -329,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -142,7 +144,7 @@
       "carbs": 141,
       "fat": 147,
       "tdee": 2747,
-      "deficit": -68,
+      "deficit": 344,
       "weight": 78.0,
       "bfGarmin": 23.6,
       "bfActual": 20.6,
@@ -159,7 +161,7 @@
       "carbs": 192,
       "fat": 93,
       "tdee": 2868,
-      "deficit": -507,
+      "deficit": -77,
       "weight": 78.4,
       "bfGarmin": 22.3,
       "bfActual": 19.3,
@@ -176,7 +178,7 @@
       "carbs": 116,
       "fat": 80,
       "tdee": 2908,
-      "deficit": -844,
+      "deficit": -408,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -193,7 +195,7 @@
       "carbs": 127,
       "fat": 36,
       "tdee": 2363,
-      "deficit": -735,
+      "deficit": -381,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -210,7 +212,7 @@
       "carbs": 106,
       "fat": 111,
       "tdee": 2895,
-      "deficit": -688,
+      "deficit": -254,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -227,7 +229,7 @@
       "carbs": 120,
       "fat": 88,
       "tdee": 2781,
-      "deficit": -697,
+      "deficit": -280,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -244,7 +246,7 @@
       "carbs": 117,
       "fat": 104,
       "tdee": 2752,
-      "deficit": -576,
+      "deficit": -163,
       "weight": 78.1,
       "bfGarmin": 23.3,
       "bfActual": 20.3,
@@ -261,7 +263,7 @@
       "carbs": 82,
       "fat": 93,
       "tdee": 2639,
-      "deficit": -682,
+      "deficit": -286,
       "weight": 78.0,
       "bfGarmin": 24.6,
       "bfActual": 21.6,
@@ -278,7 +280,7 @@
       "carbs": 111,
       "fat": 57,
       "tdee": 2946,
-      "deficit": -1073,
+      "deficit": -631,
       "weight": 78.2,
       "bfGarmin": 21.9,
       "bfActual": 18.9,
@@ -295,7 +297,7 @@
       "carbs": 130,
       "fat": 81,
       "tdee": 2681,
-      "deficit": -584,
+      "deficit": -182,
       "weight": 78.7,
       "bfGarmin": 23.6,
       "bfActual": 20.6,
@@ -312,7 +314,7 @@
       "carbs": 174,
       "fat": 87,
       "tdee": 2689,
-      "deficit": -394,
+      "deficit": 9,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -329,7 +331,7 @@
       "carbs": 119,
       "fat": 90,
       "tdee": 2958,
-      "deficit": -804,
+      "deficit": -360,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -346,7 +348,7 @@
       "carbs": 125,
       "fat": 54,
       "tdee": 2685,
-      "deficit": -847,
+      "deficit": -444,
       "weight": 77.6,
       "bfGarmin": 24.4,
       "bfActual": 21.4,
@@ -363,7 +365,7 @@
       "carbs": 137,
       "fat": 77,
       "tdee": 2744,
-      "deficit": -663,
+      "deficit": -251,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -380,7 +382,7 @@
       "carbs": 263,
       "fat": 113,
       "tdee": 2650,
-      "deficit": 271,
+      "deficit": 668,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -397,7 +399,7 @@
       "carbs": 193,
       "fat": 122,
       "tdee": 2718,
-      "deficit": -132,
+      "deficit": 276,
       "weight": 79.3,
       "bfGarmin": 21.8,
       "bfActual": 18.8,
@@ -414,7 +416,7 @@
       "carbs": 185,
       "fat": 52,
       "tdee": 2813,
-      "deficit": -845,
+      "deficit": -423,
       "weight": 79.1,
       "bfGarmin": 22.7,
       "bfActual": 19.7,
@@ -431,7 +433,7 @@
       "carbs": 108,
       "fat": 44,
       "tdee": 2636,
-      "deficit": -996,
+      "deficit": -601,
       "weight": 78.2,
       "bfGarmin": 21.9,
       "bfActual": 18.9,
@@ -448,7 +450,7 @@
       "carbs": 80,
       "fat": 62,
       "tdee": 2841,
-      "deficit": -1151,
+      "deficit": -725,
       "weight": 78.6,
       "bfGarmin": 22.4,
       "bfActual": 19.4,
@@ -465,7 +467,7 @@
       "carbs": 139,
       "fat": 73,
       "tdee": 2734,
-      "deficit": -729,
+      "deficit": -319,
       "weight": 77.9,
       "bfGarmin": 22.4,
       "bfActual": 19.4,
@@ -482,7 +484,7 @@
       "carbs": 132,
       "fat": 57,
       "tdee": 2934,
-      "deficit": -1021,
+      "deficit": -581,
       "weight": 78.5,
       "bfGarmin": 22.3,
       "bfActual": 19.3,
@@ -499,7 +501,7 @@
       "carbs": 263,
       "fat": 99,
       "tdee": 2657,
-      "deficit": 48,
+      "deficit": 447,
       "weight": 78.8,
       "bfGarmin": 22.0,
       "bfActual": 19.0,
@@ -516,7 +518,7 @@
       "carbs": 159,
       "fat": 115,
       "tdee": 2779,
-      "deficit": 6,
+      "deficit": 423,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -533,7 +535,7 @@
       "carbs": 126,
       "fat": 101,
       "tdee": 3025,
-      "deficit": -662,
+      "deficit": -208,
       "weight": 78.1,
       "bfGarmin": 21.7,
       "bfActual": 18.7,
@@ -550,7 +552,7 @@
       "carbs": 69,
       "fat": 53,
       "tdee": 2661,
-      "deficit": -1004,
+      "deficit": -605,
       "weight": 77.8,
       "bfGarmin": 21.5,
       "bfActual": 18.5,
@@ -567,7 +569,7 @@
       "carbs": 156,
       "fat": 63,
       "tdee": 2871,
-      "deficit": -814,
+      "deficit": -383,
       "weight": 77.7,
       "bfGarmin": 22.0,
       "bfActual": 19.0,
@@ -584,7 +586,7 @@
       "carbs": 116,
       "fat": 80,
       "tdee": 2887,
-      "deficit": -797,
+      "deficit": -364,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -601,7 +603,7 @@
       "carbs": 127,
       "fat": 74,
       "tdee": 2909,
-      "deficit": -926,
+      "deficit": -490,
       "weight": 78.3,
       "bfGarmin": 22.3,
       "bfActual": 19.3,
@@ -618,7 +620,7 @@
       "carbs": 130,
       "fat": 61,
       "tdee": 2508,
-      "deficit": -463,
+      "deficit": -87,
       "weight": 78.3,
       "bfGarmin": 20.7,
       "bfActual": 17.7,
@@ -635,7 +637,7 @@
       "carbs": 175,
       "fat": 106,
       "tdee": 2979,
-      "deficit": -481,
+      "deficit": -34,
       "weight": 78.4,
       "bfGarmin": 21.3,
       "bfActual": 18.3,
@@ -652,7 +654,7 @@
       "carbs": 138,
       "fat": 43,
       "tdee": 2911,
-      "deficit": -1096,
+      "deficit": -659,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -669,7 +671,7 @@
       "carbs": 159,
       "fat": 56,
       "tdee": 2791,
-      "deficit": -807,
+      "deficit": -388,
       "weight": 78.1,
       "bfGarmin": 21.0,
       "bfActual": 18.0,
@@ -686,7 +688,7 @@
       "carbs": 119,
       "fat": 40,
       "tdee": 2382,
-      "deficit": -710,
+      "deficit": -353,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -703,7 +705,7 @@
       "carbs": 95,
       "fat": 98,
       "tdee": 2939,
-      "deficit": -717,
+      "deficit": -276,
       "weight": 78.2,
       "bfGarmin": 21.8,
       "bfActual": 18.8,
@@ -720,7 +722,7 @@
       "carbs": 132,
       "fat": 45,
       "tdee": 2577,
-      "deficit": -778,
+      "deficit": -391,
       "weight": 76.8,
       "bfGarmin": 21.0,
       "bfActual": 18.0,
@@ -737,7 +739,7 @@
       "carbs": 188,
       "fat": 132,
       "tdee": 2706,
-      "deficit": 126,
+      "deficit": 532,
       "weight": 77.6,
       "bfGarmin": 20.6,
       "bfActual": 17.6,
@@ -754,7 +756,7 @@
       "carbs": 108,
       "fat": 77,
       "tdee": 2949,
-      "deficit": -1016,
+      "deficit": -574,
       "weight": 78.0,
       "bfGarmin": 21.2,
       "bfActual": 18.2,
@@ -771,7 +773,7 @@
       "carbs": 131,
       "fat": 48,
       "tdee": 2740,
-      "deficit": -928,
+      "deficit": -517,
       "weight": 78.0,
       "bfGarmin": 22.0,
       "bfActual": 19.0,
@@ -788,7 +790,7 @@
       "carbs": 107,
       "fat": 59,
       "tdee": 2572,
-      "deficit": -781,
+      "deficit": -395,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -805,7 +807,7 @@
       "carbs": 135,
       "fat": 47,
       "tdee": 2281,
-      "deficit": -449,
+      "deficit": -107,
       "weight": 78.2,
       "bfGarmin": 21.3,
       "bfActual": 18.3,
@@ -822,7 +824,7 @@
       "carbs": 126,
       "fat": 69,
       "tdee": 2808,
-      "deficit": -807,
+      "deficit": -386,
       "weight": null,
       "bfGarmin": null,
       "bfActual": null,
@@ -839,13 +841,132 @@
       "carbs": 132,
       "fat": 40,
       "tdee": 2741,
-      "deficit": -1005,
+      "deficit": -594,
       "weight": 78.3,
       "bfGarmin": 21.6,
       "bfActual": 18.6,
       "smm": 32.4,
       "bodyWater": 57.2,
-      "exercise": "Upper (half) - bench only"
+      "exercise": "Upper (half)"
+    },
+    {
+      "day": 50,
+      "date": "Apr 10",
+      "weekday": "Fri",
+      "calories": 2118,
+      "protein": 225,
+      "carbs": 147,
+      "fat": 70,
+      "tdee": 2781,
+      "deficit": -246,
+      "weight": 77.9,
+      "bfGarmin": 22.0,
+      "bfActual": 19.0,
+      "smm": 32.3,
+      "bodyWater": 56.9,
+      "exercise": "Training"
+    },
+    {
+      "day": 51,
+      "date": "Apr 11",
+      "weekday": "Sat",
+      "calories": 2715,
+      "protein": 210,
+      "carbs": 201,
+      "fat": 119,
+      "tdee": 2803,
+      "deficit": 332,
+      "weight": 78.0,
+      "bfGarmin": 21.3,
+      "bfActual": 18.3,
+      "smm": 32.3,
+      "bodyWater": 57.5,
+      "exercise": "Social day"
+    },
+    {
+      "day": 52,
+      "date": "Apr 12",
+      "weekday": "Sun",
+      "calories": 1910,
+      "protein": 228,
+      "carbs": 119,
+      "fat": 58,
+      "tdee": 2799,
+      "deficit": -469,
+      "weight": 79.0,
+      "bfGarmin": 21.7,
+      "bfActual": 18.7,
+      "smm": 32.5,
+      "bodyWater": 57.2,
+      "exercise": "Training"
+    },
+    {
+      "day": 53,
+      "date": "Apr 13",
+      "weekday": "Mon",
+      "calories": 1909,
+      "protein": 232,
+      "carbs": 135,
+      "fat": 49,
+      "tdee": 2773,
+      "deficit": -448,
+      "weight": 78.2,
+      "bfGarmin": 21.7,
+      "bfActual": 18.7,
+      "smm": 32.3,
+      "bodyWater": 57.2,
+      "exercise": "Training"
+    },
+    {
+      "day": 54,
+      "date": "Apr 14",
+      "weekday": "Tue",
+      "calories": 2111,
+      "protein": 259,
+      "carbs": 109,
+      "fat": 71,
+      "tdee": 2873,
+      "deficit": -331,
+      "weight": null,
+      "bfGarmin": null,
+      "bfActual": null,
+      "smm": null,
+      "bodyWater": null,
+      "exercise": "Training"
+    },
+    {
+      "day": 55,
+      "date": "Apr 15",
+      "weekday": "Wed",
+      "calories": 1916,
+      "protein": 215,
+      "carbs": 102,
+      "fat": 72,
+      "tdee": 2796,
+      "deficit": -461,
+      "weight": 78.1,
+      "bfGarmin": 22.1,
+      "bfActual": 19.1,
+      "smm": 32.3,
+      "bodyWater": 56.9,
+      "exercise": "Training"
+    },
+    {
+      "day": 56,
+      "date": "Apr 16",
+      "weekday": "Thu",
+      "calories": 1949,
+      "protein": 235,
+      "carbs": 133,
+      "fat": 53,
+      "tdee": 2741,
+      "deficit": -381,
+      "weight": 78.1,
+      "bfGarmin": 21.7,
+      "bfActual": 18.7,
+      "smm": 32.3,
+      "bodyWater": 57.2,
+      "exercise": "Training"
     }
   ],
   "weekly": [
@@ -855,8 +976,8 @@
       "avgCal": 2023,
       "avgProtein": 198,
       "avgTdee": 2739,
-      "avgDeficit": -716,
-      "cumDeficit": -5014,
+      "avgDeficit": -305,
+      "cumDeficit": -2139,
       "weight": 78.9,
       "bfGarmin": 23.5,
       "bfActual": 20.5,
@@ -868,8 +989,8 @@
       "avgCal": 2171,
       "avgProtein": 200,
       "avgTdee": 2759,
-      "avgDeficit": -588,
-      "cumDeficit": -9129,
+      "avgDeficit": -174,
+      "cumDeficit": -3357,
       "weight": 78.2,
       "bfGarmin": 23.5,
       "bfActual": 20.5,
@@ -881,8 +1002,8 @@
       "avgCal": 2042,
       "avgProtein": 212,
       "avgTdee": 2763,
-      "avgDeficit": -721,
-      "cumDeficit": -14176,
+      "avgDeficit": -307,
+      "cumDeficit": -5506,
       "weight": 78.4,
       "bfGarmin": 22.8,
       "bfActual": 19.8,
@@ -894,8 +1015,8 @@
       "avgCal": 2103,
       "avgProtein": 200,
       "avgTdee": 2761,
-      "avgDeficit": -658,
-      "cumDeficit": -18779,
+      "avgDeficit": -243,
+      "cumDeficit": -7207,
       "weight": 78.5,
       "bfGarmin": 22.3,
       "bfActual": 19.3,
@@ -907,8 +1028,8 @@
       "avgCal": 2234,
       "avgProtein": 226,
       "avgTdee": 2827,
-      "avgDeficit": -593,
-      "cumDeficit": -22928,
+      "avgDeficit": -169,
+      "cumDeficit": -8390,
       "weight": 78.2,
       "bfGarmin": 22.1,
       "bfActual": 19.1,
@@ -920,8 +1041,8 @@
       "avgCal": 2005,
       "avgProtein": 222,
       "avgTdee": 2727,
-      "avgDeficit": -722,
-      "cumDeficit": -27980,
+      "avgDeficit": -313,
+      "cumDeficit": -10581,
       "weight": 78.1,
       "bfGarmin": 21.3,
       "bfActual": 18.3,
@@ -933,11 +1054,24 @@
       "avgCal": 1991,
       "avgProtein": 213,
       "avgTdee": 2685,
-      "avgDeficit": -694,
-      "cumDeficit": -32840,
+      "avgDeficit": -291,
+      "cumDeficit": -12616,
       "weight": 78.0,
       "bfGarmin": 21.5,
       "bfActual": 18.5,
+      "smm": 32.3
+    },
+    {
+      "week": 8,
+      "dates": "Apr 10-16",
+      "avgCal": 2090,
+      "avgProtein": 229,
+      "avgTdee": 2795,
+      "avgDeficit": -286,
+      "cumDeficit": -14619,
+      "weight": 78.2,
+      "bfGarmin": 21.8,
+      "bfActual": 18.8,
       "smm": 32.3
     }
   ],
@@ -960,150 +1094,119 @@
         "isPrimary": true,
         "weeklyProjections": [
           {
-            "week": 8,
-            "primary": 18.1
-          },
-          {
             "week": 9,
-            "primary": 17.8
+            "primary": 18.6
           },
           {
             "week": 10,
-            "primary": 17.4
+            "primary": 18.4
           },
           {
             "week": 11,
-            "primary": 17.1
+            "primary": 18.2
           },
           {
             "week": 12,
-            "primary": 16.7
-          },
-          {
-            "week": 13,
-            "primary": 16.4
-          },
-          {
-            "week": 14,
-            "primary": 16.1
-          }
-        ]
-      },
-      {
-        "name": "Optimistic",
-        "color": "#2dd4a0",
-        "isPrimary": false,
-        "weeklyProjections": [
-          {
-            "week": 8,
             "primary": 18.0
           },
           {
-            "week": 9,
-            "primary": 17.5
-          },
-          {
-            "week": 10,
-            "primary": 17.0
-          },
-          {
-            "week": 11,
-            "primary": 16.5
-          },
-          {
-            "week": 12,
-            "primary": 16.0
-          },
-          {
             "week": 13,
-            "primary": 15.5
+            "primary": 17.8
           },
           {
             "week": 14,
-            "primary": 15.2
+            "primary": 17.6
+          },
+          {
+            "week": 15,
+            "primary": 17.4
+          },
+          {
+            "week": 16,
+            "primary": 17.2
+          },
+          {
+            "week": 17,
+            "primary": 17.0
+          },
+          {
+            "week": 18,
+            "primary": 16.8
           }
         ]
       }
     ]
   },
   "analysis": {
-    "asOf": "Day 49, Week 7 complete (Apr 9, 2026) -- Program extended to 14 weeks (May 28)",
+    "asOf": "Day 56, Week 8 complete (Apr 16, 2026) -- Program recalibrated and extended to 18 weeks",
     "goingWell": [
       {
-        "title": "Week 7 hit -694 deficit, exactly on target",
-        "text": "Closing out 70% of the cut with -32,840 cumulative deficit. Choppy start (Day 43 surplus), clean finish. Day 44 immediately corrected with -1,016 (deadlift day, one of the largest deficits of the cut)."
+        "title": "SMM locked at 32.3 for 7+ consecutive weeks",
+        "text": "Weekly average has held within a 0.2 kg band (32.3-32.5) since Week 2. At a cumulative adjusted deficit of ~14,600 cal, muscle preservation has been essentially perfect. The 212g daily protein average across all 56 days is the driver."
       },
       {
-        "title": "SMM locked at 32.3 for 4 consecutive weeks",
-        "text": "Weeks 4-7 all at exactly 32.3 kg weekly average. Daily spot readings in Week 7 ranged 32.2-32.4, all within normal variance. Most cutters see 0.2-0.4 kg SMM decline over this timeframe. This is an unusually clean muscle preservation signal."
+        "title": "No metabolic adaptation detected across 8 weeks",
+        "text": "TDEE weekly averages: 2,739, 2,759, 2,763, 2,761, 2,827, 2,727, 2,685, 2,795. Stable throughout. The body has not downregulated despite 8 weeks of sustained deficit."
       },
       {
         "title": "Protein discipline at its peak",
-        "text": "All 7 days of Week 7 above 200g (range: 202-223g, avg 213g). Third consecutive week averaging above 210g. Weekly protein avg has been above 200g for every week of the cut."
+        "text": "Week 8 averaged 229g protein, the highest weekly average of the cut. The 160g floor has never been broken (lowest: 176g, Day 4). Every week has averaged above 198g."
       },
       {
-        "title": "Course-correction pattern remains the defining strength",
-        "text": "Day 43 surplus (+126) was followed by Day 44 -1,016. The ability to recover hard from disruptions without spiraling has driven the 90% adherence rate (44 of 49 days in deficit)."
+        "title": "Adherence remains strong at 90%+",
+        "text": "Of 56 days, only 8 surplus days (adjusted math). All planned or social. Course-correction pattern after surplus days remains the defining behavioral strength."
       },
       {
-        "title": "No metabolic adaptation across 7 weeks",
-        "text": "TDEE weekly averages: 2,739, 2,759, 2,763, 2,761, 2,827, 2,727, 2,685. The Week 7 dip is rest day-driven, not adaptive thermogenesis. Body has not downregulated metabolism."
+        "title": "BF% down 1.5% actual from baseline",
+        "text": "From 20.3% to 18.8% est. actual across 8 weeks. The rate flattened in Weeks 6-8, triggering the recalibration, but the overall trajectory is clearly downward."
       },
       {
-        "title": "Week 7 lowest cal AND lowest TDEE, still hit target",
-        "text": "Lowest avg cal week (1,991) and lowest avg TDEE (2,685), yet still hit -700 deficit target. Demonstrates that deficit is independent of absolute TDEE when intake discipline is maintained."
-      },
-      {
-        "title": "Rest day deficit management",
-        "text": "Day 47 rest day hit -449 despite eating 1,832 cal. Rest day TDEE of 2,281 was the lowest of Week 7 by a wide margin. Confirms rest days don't have to sabotage the deficit if intake is controlled around the lower TDEE ceiling."
+        "title": "Recalibration was proactive, not reactive",
+        "text": "Rather than waiting for a crisis, the TDEE discount and program extension were adopted based on data signals (BF% flattening despite consistent deficit execution). This is the right way to adapt a program."
       }
     ],
     "toWatch": [
       {
-        "title": "BF% ticked up in Week 7 (18.3% to 18.5%)",
-        "text": "Weekly avg BF% rose from 18.3% to 18.5% (est. actual). Body water dropped from 57.5% to 57.3% as the body reestablished hydration equilibrium after the Day 42 whoosh. The BIA scale reads BF% higher when water is lower. Underneath the water noise, deficit math says ~0.6 kg of fat was lost this week."
+        "title": "TDEE -15% discount is deliberately conservative",
+        "text": "D/FL ratio of 0.49 suggests the adjusted deficit math still underestimates actual fat loss. BIA shows ~3.85 kg fat lost vs 1.9 kg projected by the new math. Staying conservative for now, with recalibration check at Week 12."
       },
       {
-        "title": "Week 8 BF% is the critical data point",
-        "text": "If Week 8 shows a drop back to 18.3% or lower, the observed-rate model holds and the 17% target remains achievable. If it stays flat or rises, the model needs recalibration. The buffer has shrunk."
+        "title": "BF% weekly trend flattened in Weeks 6-8",
+        "text": "21.3% -> 21.5% -> 21.8% Garmin (18.3% -> 18.5% -> 18.8% actual). Two consecutive tick-ups triggered the recalibration. The -0.20%/wk projection rate accounts for this slower pace going forward."
       },
       {
-        "title": "Refeed is overdue",
-        "text": "21 days since the last clean carb refeed (Day 29). Day 43's surplus was high-fat, not a clean refeed. The 7-10 day cadence has been broken. Early Week 8 on a training day is essential."
+        "title": "Refeed overdue",
+        "text": "Last clean carb refeed was Day 29 (Mar 20) -- 27 days ago. Next scheduled for Day 61 (Apr 21, Tuesday pull day). Every 14 days going forward."
       },
       {
-        "title": "Second whoosh likely in Weeks 8-9",
-        "text": "The pattern from Weeks 3-6 (slow water build, then release) may repeat. Body water in Weeks 8-9 will be the leading indicator."
+        "title": "Rolling 4-week BF% is the primary plateau signal",
+        "text": "End of W8: 21.7% Garmin (4-week rolling). This smooths weekly noise. If the 4-week rolling stays flat for another window, intervention escalates."
       },
       {
-        "title": "Target trajectory has zero margin",
-        "text": "1.5% actual BF to go, 3 weeks left, -0.50%/wk needed. Tight but hittable. Weeks 8-10 have zero margin for slippage."
+        "title": "D/FL ratio recalibration at Week 12",
+        "text": "If the ratio moves closer to 0.8-1.0, the -15% discount may be too aggressive. If it stays below 0.5, either BIA is overestimating fat loss or the discount is too conservative."
       }
     ],
     "observations": [
       {
-        "title": "Body water remains the leading whoosh indicator",
-        "text": "The climb from 55.8% (early Week 2) to 58.0% (Day 43) predicted the first whoosh by 3+ weeks. Watching body water in Weeks 8-9 will signal the next potential whoosh."
+        "title": "The recalibration tells the real story",
+        "text": "Under the old Cal - TDEE math, 56 days showed -37,778 cal cumulative deficit and 4.9 kg projected fat loss. Under the adjusted math: -14,619 cal and 1.9 kg. The truth is likely between these -- BIA shows ~3.85 kg actual fat lost. The old math was clearly overstating; the new math likely understates."
       },
       {
-        "title": "Fat compression was the macro story of Week 7",
-        "text": "Day 43 hit 132g fat (one of the highest fat days of the cut). The remaining 6 days averaged just 55g fat to compensate. Week 7 avg landed at 72g, right on the cut average of 76g."
+        "title": "Week 8 was a solid execution week",
+        "text": "Avg adjusted deficit of -286/day. Week total -2,003. Protein at 229g avg (highest week). Only one surplus day (Day 51, social). Six of seven days in deficit."
       },
       {
-        "title": "Day 44 was one of the largest deficits of the cut",
-        "text": "-1,016 on a deadlift day. The pattern of biggest deficit days clustering after disruption days continues."
+        "title": "Deficit progression under adjusted math",
+        "text": "Weekly adjusted deficits: -305, -174, -307, -243, -169, -313, -291, -286. Consistent in the -170 to -313 range. The adjusted math reveals that actual energy balance was much tighter than the Garmin readings suggested."
       },
       {
-        "title": "Weight dropped while BF% ticked up",
-        "text": "Weekly weight avg went 78.1 to 78.0 kg, but BF% avg went 21.3% to 21.5% (Garmin). When weight drops and BF% rises slightly, it's almost always water rebalancing, not muscle loss. SMM held at 32.3 confirms this."
+        "title": "Program now runs 18 weeks with realistic pacing",
+        "text": "At -0.20%/wk, the projection lands at 16.8% actual BF% by Week 18 (June 25). The original 10-week target of 17% by May 1 was always aggressive. The 18-week runway gives breathing room and removes the pressure that leads to crash-dieting behavior."
       },
       {
-        "title": "Visual progress held but didn't advance",
-        "text": "Day 49 photo shows the same shoulder/chest/V-taper development as Day 44. Midsection looks marginally smoother vs Day 44 -- consistent with water rebalancing masking ongoing fat loss. Lower belly remains the last holdout."
-      },
-      {
-        "title": "Week 7 introduced new restaurant variety",
-        "text": "Soy Glaze Chicken added to rotation. Expanding meal variety while maintaining tracking discipline continues to support sustainability."
+        "title": "Signals framework prevents emotional decisions",
+        "text": "The trigger-based system means single-week tick-ups don't cause panic. Only sustained multi-week patterns trigger interventions. This has already prevented two unnecessary course changes (Week 7 and Week 8 tick-ups were absorbed as noise)."
       }
     ]
   }

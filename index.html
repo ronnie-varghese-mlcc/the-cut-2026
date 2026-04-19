@@ -1164,13 +1164,16 @@ function renderWeeklyTable(weekly) {
       const color = delta < 0 ? 'var(--green)' : delta > 0 ? 'var(--red)' : 'var(--t3)';
       deltaHtml = `<span style="color:${color};font-size:10px">${arrow} ${delta > 0 ? '+' : ''}${delta}</span>`;
     }
+    const adjFactor = 0.85;
     return `<tr class="${isCur ? 'cur' : ''}">
       <td>Wk ${w.week}</td>
       <td class="col-hide">${w.dates}</td>
       <td class="num">${fmt(w.avgCal)}</td>
       <td class="col-hide num" style="color:${w.avgProtein >= 200 ? 'var(--green)' : 'var(--amber)'}">${w.avgProtein}g</td>
-      <td class="num">${fmt(w.avgTdee)}</td>
+      <td class="col-hide num">${fmt(w.avgTdee)}</td>
+      <td class="num">${fmt(Math.round(w.avgTdee * adjFactor))}</td>
       <td class="num" style="color:${w.avgDeficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(w.avgDeficit)}</td>
+      <td class="num" style="color:${w.avgDeficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(w.avgDeficit * 7)}</td>
       <td class="col-hide num">${fmt(w.weight, 1)}</td>
       <td class="num" style="color:var(--purple)">${fmt(w.bfActual, 1)}%</td>
       <td class="num">${deltaHtml}</td>
@@ -1183,7 +1186,7 @@ function renderWeeklyTable(weekly) {
       <table class="tbl" id="weeklyTbl">
         <thead><tr>
           <th>Week</th><th class="col-hide">Dates</th><th>Avg Cal</th><th class="col-hide">Avg Protein</th>
-          <th>Avg TDEE</th><th>Adj. Deficit</th><th class="col-hide">Weight</th><th>BF%</th><th>&#916;</th><th class="col-hide">SMM</th>
+          <th class="col-hide">TDEE</th><th>Adj. TDEE</th><th>Adj. Def. Avg</th><th>Wk Total</th><th class="col-hide">Weight</th><th>BF%</th><th>&#916;</th><th class="col-hide">SMM</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -1212,13 +1215,15 @@ function renderWeeklyTable(weekly) {
 function renderDailyLog(daily) {
   const rows = daily.map(d => {
     const isSurplus = d.deficit > 0;
+    const adjTdee = d.tdee != null ? Math.round(d.tdee * 0.85) : null;
     return `<tr class="${isSurplus ? 'surplus' : ''}">
       <td>${d.day}</td>
       <td class="col-hide">${d.date}</td>
       <td class="col-hide">${d.weekday}</td>
       <td class="num">${fmt(d.calories)}</td>
       <td class="num" style="color:${d.protein >= 200 ? 'var(--green)' : d.protein >= 160 ? 'var(--amber)' : 'var(--red)'}">${d.protein}g</td>
-      <td class="num">${fmt(d.tdee)}</td>
+      <td class="col-hide num">${fmt(d.tdee)}</td>
+      <td class="num">${adjTdee != null ? fmt(adjTdee) : ''}</td>
       <td class="num" style="color:${d.deficit < 0 ? 'var(--blue)' : 'var(--red)'}">${sign(d.deficit)}</td>
       <td class="col-hide num" style="color:var(--purple)">${d.weight != null ? fmt(d.weight, 1) : ''}</td>
       <td class="num" style="color:var(--purple)">${d.bfActual != null ? fmt(d.bfActual, 1) + '%' : ''}</td>
@@ -1231,7 +1236,7 @@ function renderDailyLog(daily) {
       <table class="daily-tbl" id="dailyTbl">
         <thead><tr>
           <th>#</th><th class="col-hide">Date</th><th class="col-hide">Day</th><th>Cal</th><th>Protein</th>
-          <th>TDEE</th><th>Adj. Def</th><th class="col-hide">Weight</th><th>BF%</th><th class="col-hide">Exercise</th>
+          <th class="col-hide">TDEE</th><th>Adj. TDEE</th><th>Adj. Def</th><th class="col-hide">Weight</th><th>BF%</th><th class="col-hide">Exercise</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>

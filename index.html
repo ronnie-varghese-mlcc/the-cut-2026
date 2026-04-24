@@ -465,6 +465,23 @@ function renderStats(data) {
     }
   ];
 
+  // Add D/FL Ratio card if data exists
+  const dfl = DATA.dflRatio;
+  if (dfl && dfl.length > 0) {
+    const latest = dfl[dfl.length - 1];
+    const ratioVal = latest.ratio;
+    const band = ratioVal >= 0.8 && ratioVal <= 1.2 ? 'In band' : ratioVal > 1.2 ? 'Above band' : 'Below band';
+    const bandClass = ratioVal >= 0.8 && ratioVal <= 1.2 ? 'tag-g' : 'tag-a';
+    cards.push({
+      label: 'D/FL Ratio',
+      value: ratioVal.toFixed(2),
+      color: 'var(--amber)',
+      sub: `Week ${latest.week} / Target: 0.8-1.2`,
+      tag: band,
+      tagClass: bandClass
+    });
+  }
+
   const container = document.getElementById('statCards');
   container.innerHTML = cards.map(c => `
     <div class="sc">
@@ -703,6 +720,35 @@ function chartDeficit(daily) {
         ctx.fillText('avg ' + avgDef, chart.chartArea.right - 55, y - 5);
         ctx.restore();
       }
+    },
+    {
+      id: 'refeedMarkers',
+      afterDraw(chart) {
+        const refeeds = DATA.refeeds || [];
+        if (!refeeds.length) return;
+        const ctx = chart.ctx;
+        ctx.save();
+        refeeds.forEach(r => {
+          const dayIdx = r.day - 1;
+          if (dayIdx < 0 || dayIdx >= chart.data.labels.length) return;
+          const x = chart.scales.x.getPixelForValue(dayIdx);
+          const topY = chart.chartArea.top + 8;
+          // Draw small triangle marker
+          ctx.fillStyle = 'rgba(245,158,11,.8)';
+          ctx.beginPath();
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x - 5, topY - 10);
+          ctx.lineTo(x + 5, topY - 10);
+          ctx.closePath();
+          ctx.fill();
+          // Label
+          ctx.fillStyle = 'rgba(245,158,11,.6)';
+          ctx.font = "8px 'JetBrains Mono', monospace";
+          ctx.textAlign = 'center';
+          ctx.fillText('R', x, topY - 12);
+        });
+        ctx.restore();
+      }
     }]
   });
 }
@@ -888,6 +934,26 @@ function chartProjection(weekly, projections, meta, daily) {
       _group: 'secondary'
     });
   });
+
+  // Rolling 4-week BF% (smoothed trend line)
+  if (DATA.rolling4week && DATA.rolling4week.length > 0) {
+    const rollingData = new Array(totalWeeks).fill(null);
+    DATA.rolling4week.forEach(r => {
+      if (r.week >= 1 && r.week <= totalWeeks) {
+        rollingData[r.week - 1] = r.bfActual;
+      }
+    });
+    datasets.push({
+      label: '4-Week Rolling BF%',
+      data: rollingData,
+      borderColor: 'rgba(6,182,212,.7)',
+      tension: 0.3, borderWidth: 2.5,
+      pointRadius: 3, pointBackgroundColor: 'rgba(6,182,212,.7)',
+      pointBorderColor: '#111116', pointBorderWidth: 1.5,
+      spanGaps: false, fill: false, yAxisID: 'yPrimary',
+      _group: 'primary'
+    });
+  }
 
   // Deficit math line (off by default)
   if (primaryMetric === 'bfActual') {

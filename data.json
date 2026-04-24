@@ -7,11 +7,11 @@
     "startDate": "2026-02-20",
     "endDate": "2026-06-25",
     "totalDays": 126,
-    "daysComplete": 56,
+    "daysComplete": 63,
     "startWeight": 79.6,
     "startBfActual": 20.3,
     "targetBf": 16.0,
-    "lastUpdated": "2026-04-17",
+    "lastUpdated": "2026-04-24",
     "tdeeDiscount": 0.15,
     "startFatMass": 18.55
   },
@@ -967,6 +967,125 @@
       "smm": 32.3,
       "bodyWater": 57.2,
       "exercise": "Training"
+    },
+    {
+      "day": 57,
+      "date": "Apr 17",
+      "weekday": "Fri",
+      "calories": 2061,
+      "protein": 190,
+      "carbs": 148,
+      "fat": 79,
+      "tdee": 2599,
+      "deficit": -148,
+      "weight": 78.2,
+      "bfGarmin": 20.5,
+      "bfActual": 17.5,
+      "smm": 32.3,
+      "bodyWater": 58.1,
+      "exercise": "Rest day"
+    },
+    {
+      "day": 58,
+      "date": "Apr 18",
+      "weekday": "Sat",
+      "calories": 3728,
+      "protein": 245,
+      "carbs": 228,
+      "fat": 204,
+      "tdee": 3124,
+      "deficit": 1073,
+      "weight": 78.0,
+      "bfGarmin": 20.8,
+      "bfActual": 17.8,
+      "smm": 32.3,
+      "bodyWater": 57.8,
+      "exercise": "Lower + Basketball. Orfali refeed"
+    },
+    {
+      "day": 59,
+      "date": "Apr 19",
+      "weekday": "Sun",
+      "calories": 1737,
+      "protein": 229,
+      "carbs": 145,
+      "fat": 27,
+      "tdee": 2835,
+      "deficit": -673,
+      "weight": null,
+      "bfGarmin": null,
+      "bfActual": null,
+      "smm": null,
+      "bodyWater": null,
+      "exercise": "Push day"
+    },
+    {
+      "day": 60,
+      "date": "Apr 20",
+      "weekday": "Mon",
+      "calories": 1549,
+      "protein": 205,
+      "carbs": 122,
+      "fat": 27,
+      "tdee": 2856,
+      "deficit": -879,
+      "weight": null,
+      "bfGarmin": null,
+      "bfActual": null,
+      "smm": null,
+      "bodyWater": null,
+      "exercise": "Rest + 3 cardio sessions"
+    },
+    {
+      "day": 61,
+      "date": "Apr 21",
+      "weekday": "Tue",
+      "calories": 1954,
+      "protein": 206,
+      "carbs": 125,
+      "fat": 70,
+      "tdee": 3035,
+      "deficit": -626,
+      "weight": 77.5,
+      "bfGarmin": 22.2,
+      "bfActual": 19.2,
+      "smm": 32.2,
+      "bodyWater": 56.8,
+      "exercise": "Pull day"
+    },
+    {
+      "day": 62,
+      "date": "Apr 22",
+      "weekday": "Wed",
+      "calories": 1716,
+      "protein": 209,
+      "carbs": 130,
+      "fat": 40,
+      "tdee": 2746,
+      "deficit": -618,
+      "weight": 77.5,
+      "bfGarmin": 21.4,
+      "bfActual": 18.4,
+      "smm": 32.2,
+      "bodyWater": 57.4,
+      "exercise": "Cardio only"
+    },
+    {
+      "day": 63,
+      "date": "Apr 23",
+      "weekday": "Thu",
+      "calories": 1957,
+      "protein": 219,
+      "carbs": 124,
+      "fat": 65,
+      "tdee": 2950,
+      "deficit": -551,
+      "weight": 77.7,
+      "bfGarmin": 22.2,
+      "bfActual": 19.2,
+      "smm": 32.2,
+      "bodyWater": 56.8,
+      "exercise": "Upper + elliptical + walk"
     }
   ],
   "weekly": [
@@ -1073,6 +1192,19 @@
       "bfGarmin": 21.8,
       "bfActual": 18.8,
       "smm": 32.3
+    },
+    {
+      "week": 9,
+      "dates": "Apr 17-23",
+      "avgCal": 2100,
+      "avgProtein": 215,
+      "avgTdee": 2878,
+      "avgDeficit": -346,
+      "cumDeficit": -17040,
+      "weight": 77.8,
+      "bfGarmin": 21.5,
+      "bfActual": 18.5,
+      "smm": 32.2
     }
   ],
   "projections": {
@@ -1094,120 +1226,259 @@
         "isPrimary": true,
         "weeklyProjections": [
           {
-            "week": 9,
-            "primary": 18.6
-          },
-          {
             "week": 10,
-            "primary": 18.4
+            "primary": 18.3
           },
           {
             "week": 11,
-            "primary": 18.2
+            "primary": 18.1
           },
           {
             "week": 12,
-            "primary": 18.0
+            "primary": 17.9
           },
           {
             "week": 13,
-            "primary": 17.8
+            "primary": 17.7
           },
           {
             "week": 14,
-            "primary": 17.6
+            "primary": 17.5
           },
           {
             "week": 15,
-            "primary": 17.4
+            "primary": 17.3
           },
           {
             "week": 16,
-            "primary": 17.2
+            "primary": 17.1
           },
           {
             "week": 17,
-            "primary": 17.0
+            "primary": 16.9
           },
           {
             "week": 18,
-            "primary": 16.8
+            "primary": 16.7
+          }
+        ]
+      },
+      {
+        "name": "Observed",
+        "color": "#2dd4a0",
+        "isPrimary": false,
+        "weeklyProjections": [
+          {
+            "week": 10,
+            "primary": 18.2
+          },
+          {
+            "week": 11,
+            "primary": 17.9
+          },
+          {
+            "week": 12,
+            "primary": 17.6
+          },
+          {
+            "week": 13,
+            "primary": 17.3
+          },
+          {
+            "week": 14,
+            "primary": 17.0
+          },
+          {
+            "week": 15,
+            "primary": 16.7
+          },
+          {
+            "week": 16,
+            "primary": 16.4
+          },
+          {
+            "week": 17,
+            "primary": 16.1
+          },
+          {
+            "week": 18,
+            "primary": 15.8
           }
         ]
       }
     ]
   },
   "analysis": {
-    "asOf": "Day 56, Week 8 complete (Apr 16, 2026) -- Program recalibrated and extended to 18 weeks",
+    "asOf": "Day 63, Week 9 complete (Apr 23, 2026) -- 50% of program",
     "goingWell": [
       {
-        "title": "SMM locked at 32.3 for 7+ consecutive weeks",
-        "text": "Weekly average has held within a 0.2 kg band (32.3-32.5) since Week 2. At a cumulative adjusted deficit of ~14,600 cal, muscle preservation has been essentially perfect. The 212g daily protein average across all 56 days is the driver."
+        "title": "Week 9 was the strongest deficit week of the cut",
+        "text": "Avg adjusted deficit of -346/day, surpassing W6 at -313. Week total: -2,421. Driven by the recalibration framework reshaping what 'a good day' looks like, not willpower. Four of seven days ran -550 to -880 adjusted."
       },
       {
-        "title": "No metabolic adaptation detected across 8 weeks",
-        "text": "TDEE weekly averages: 2,739, 2,759, 2,763, 2,761, 2,827, 2,727, 2,685, 2,795. Stable throughout. The body has not downregulated despite 8 weeks of sustained deficit."
+        "title": "Weight dropped -0.4 kg, BF% turned back down",
+        "text": "Weekly weight 78.2 to 77.8. BF% reversed from the W7-W8 tick-up: 21.8% to 21.5% Garmin (18.8% to 18.5% actual). The 4-week rolling BF% continues its clean downward trend."
       },
       {
-        "title": "Protein discipline at its peak",
-        "text": "Week 8 averaged 229g protein, the highest weekly average of the cut. The 160g floor has never been broken (lowest: 176g, Day 4). Every week has averaged above 198g."
+        "title": "SMM essentially maintained at 32.2",
+        "text": "Slight -0.1 vs W8 (32.3 to 32.2), within BIA noise. Rolling 4-week SMM at 32.27. No meaningful muscle loss across 9 weeks of deficit."
       },
       {
-        "title": "Adherence remains strong at 90%+",
-        "text": "Of 56 days, only 8 surplus days (adjusted math). All planned or social. Course-correction pattern after surplus days remains the defining behavioral strength."
+        "title": "Post-refeed recovery was textbook",
+        "text": "Day 58 Orfali refeed (+1,073 adj def). Days 59-63 averaged -669 adjusted deficit. Course-correction pattern remains the defining behavioral strength."
       },
       {
-        "title": "BF% down 1.5% actual from baseline",
-        "text": "From 20.3% to 18.8% est. actual across 8 weeks. The rate flattened in Weeks 6-8, triggering the recalibration, but the overall trajectory is clearly downward."
+        "title": "Protein discipline held across all 63 days",
+        "text": "Week 9 avg 215g. Cut-long avg 214g. Floor of 160g never broken. Every week has averaged above 198g."
       },
       {
-        "title": "Recalibration was proactive, not reactive",
-        "text": "Rather than waiting for a crisis, the TDEE discount and program extension were adopted based on data signals (BF% flattening despite consistent deficit execution). This is the right way to adapt a program."
+        "title": "Rolling -0.30%/wk observed rate",
+        "text": "4-week rolling BF% actual: W4 20.03% to W9 18.52% = -1.51% over 5 rolling windows. This is faster than the -0.20%/wk conservative model."
+      },
+      {
+        "title": "D/FL ratio converging toward 1.0",
+        "text": "W8: 1.30, W9: 1.25. The adjusted deficit math is tracking closer to reality. No TDEE discount recalibration needed at this point."
       }
     ],
     "toWatch": [
       {
-        "title": "TDEE -15% discount is deliberately conservative",
-        "text": "D/FL ratio of 0.49 suggests the adjusted deficit math still underestimates actual fat loss. BIA shows ~3.85 kg fat lost vs 1.9 kg projected by the new math. Staying conservative for now, with recalibration check at Week 12."
+        "title": "D/FL ratio still above 1.0",
+        "text": "At 1.25, the adjusted math slightly overstates deficit relative to actual fat loss. Trending in the right direction (from 1.30). Next formal check at Week 12 (May 14)."
       },
       {
-        "title": "BF% weekly trend flattened in Weeks 6-8",
-        "text": "21.3% -> 21.5% -> 21.8% Garmin (18.3% -> 18.5% -> 18.8% actual). Two consecutive tick-ups triggered the recalibration. The -0.20%/wk projection rate accounts for this slower pace going forward."
+        "title": "Refeed scheduled May 2 (Day 72)",
+        "text": "14 days after the Orfali refeed. Lower body training day preferred. Every 14 days going forward."
       },
       {
-        "title": "Refeed overdue",
-        "text": "Last clean carb refeed was Day 29 (Mar 20) -- 27 days ago. Next scheduled for Day 61 (Apr 21, Tuesday pull day). Every 14 days going forward."
+        "title": "SMM -0.1 needs monitoring",
+        "text": "32.3 to 32.2 is within BIA noise, but if it drops to 32.0 or below in W10, it becomes a real signal. Rolling 4-week SMM at 32.27 is still clean."
       },
       {
-        "title": "Rolling 4-week BF% is the primary plateau signal",
-        "text": "End of W8: 21.7% Garmin (4-week rolling). This smooths weekly noise. If the 4-week rolling stays flat for another window, intervention escalates."
+        "title": "Week 12 is the next recalibration checkpoint",
+        "text": "D/FL ratio, rolling 4-week trends, and TDEE discount all get reviewed. If D/FL is still outside 0.8-1.2, adjust the -15% factor."
       },
       {
-        "title": "D/FL ratio recalibration at Week 12",
-        "text": "If the ratio moves closer to 0.8-1.0, the -15% discount may be too aggressive. If it stays below 0.5, either BIA is overestimating fat loss or the discount is too conservative."
+        "title": "16% target reachable by W16 if rolling rate holds",
+        "text": "-0.30%/wk from 18.5% lands at 16.4% by Week 16 (June 11). If rate regresses to -0.20%/wk, landing is 16.7% by Week 18 (June 25). Both are within the target zone."
       }
     ],
     "observations": [
       {
-        "title": "The recalibration tells the real story",
-        "text": "Under the old Cal - TDEE math, 56 days showed -37,778 cal cumulative deficit and 4.9 kg projected fat loss. Under the adjusted math: -14,619 cal and 1.9 kg. The truth is likely between these -- BIA shows ~3.85 kg actual fat lost. The old math was clearly overstating; the new math likely understates."
+        "title": "50% milestone reached",
+        "text": "63 of 126 days complete. The program is exactly at the halfway point. From 20.3% to 18.5% actual BF% = -1.8% in 9 weeks. Another -2.5% needed over the next 9 weeks to hit 16%."
       },
       {
-        "title": "Week 8 was a solid execution week",
-        "text": "Avg adjusted deficit of -286/day. Week total -2,003. Protein at 229g avg (highest week). Only one surplus day (Day 51, social). Six of seven days in deficit."
+        "title": "Day 60 was the most aggressive recovery day of the cut",
+        "text": "-879 adjusted deficit on a rest day with 3 separate cardio sessions (elliptical + treadmill + post-dinner walk). This level of course-correction after the refeed was deliberate and effective."
       },
       {
-        "title": "Deficit progression under adjusted math",
-        "text": "Weekly adjusted deficits: -305, -174, -307, -243, -169, -313, -291, -286. Consistent in the -170 to -313 range. The adjusted math reveals that actual energy balance was much tighter than the Garmin readings suggested."
+        "title": "Body water pattern continues as whoosh predictor",
+        "text": "W9 avg 57.3%. Day 57 hit 58.1% (post-rest day). The climb and subsequent drop pattern has been reliable throughout the cut."
       },
       {
-        "title": "Program now runs 18 weeks with realistic pacing",
-        "text": "At -0.20%/wk, the projection lands at 16.8% actual BF% by Week 18 (June 25). The original 10-week target of 17% by May 1 was always aggressive. The 18-week runway gives breathing room and removes the pressure that leads to crash-dieting behavior."
+        "title": "Deficit distribution is maturing",
+        "text": "Week 9 had the widest adjusted deficit range of any week: +1,073 (refeed) to -879. The ability to swing aggressively in both directions and still land at -346 avg is a sign of execution maturity."
       },
       {
-        "title": "Signals framework prevents emotional decisions",
-        "text": "The trigger-based system means single-week tick-ups don't cause panic. Only sustained multi-week patterns trigger interventions. This has already prevented two unnecessary course changes (Week 7 and Week 8 tick-ups were absorbed as noise)."
+        "title": "Visual progress on Day 63",
+        "text": "Progress photos show continued V-taper development and shoulder definition. Midsection has smoothed slightly from W8. Lower belly remains the last holdout area, consistent with BF% trajectory."
       }
     ]
-  }
+  },
+  "rolling4week": [
+    {
+      "week": 4,
+      "weight": 78.5,
+      "bfActual": 20.03,
+      "smm": 32.4,
+      "bodyWater": 56.2
+    },
+    {
+      "week": 5,
+      "weight": 78.33,
+      "bfActual": 19.68,
+      "smm": 32.35,
+      "bodyWater": 56.4
+    },
+    {
+      "week": 6,
+      "weight": 78.3,
+      "bfActual": 19.12,
+      "smm": 32.35,
+      "bodyWater": 56.7
+    },
+    {
+      "week": 7,
+      "weight": 78.2,
+      "bfActual": 18.8,
+      "smm": 32.33,
+      "bodyWater": 57.2
+    },
+    {
+      "week": 8,
+      "weight": 78.12,
+      "bfActual": 18.68,
+      "smm": 32.3,
+      "bodyWater": 57.3
+    },
+    {
+      "week": 9,
+      "weight": 78.03,
+      "bfActual": 18.52,
+      "smm": 32.27,
+      "bodyWater": 57.4
+    }
+  ],
+  "dflRatio": [
+    {
+      "week": 4,
+      "ratio": 0.93
+    },
+    {
+      "week": 5,
+      "ratio": 0.89
+    },
+    {
+      "week": 6,
+      "ratio": 0.74
+    },
+    {
+      "week": 7,
+      "ratio": 0.95
+    },
+    {
+      "week": 8,
+      "ratio": 1.3
+    },
+    {
+      "week": 9,
+      "ratio": 1.25
+    }
+  ],
+  "refeeds": [
+    {
+      "day": 29,
+      "date": "Mar 20",
+      "adjDeficit": 447,
+      "context": "Planned refeed"
+    },
+    {
+      "day": 43,
+      "date": "Apr 03",
+      "adjDeficit": 532,
+      "context": "Planned refeed"
+    },
+    {
+      "day": 51,
+      "date": "Apr 11",
+      "adjDeficit": 332,
+      "context": "Planned refeed"
+    },
+    {
+      "day": 58,
+      "date": "Apr 18",
+      "adjDeficit": 1073,
+      "context": "Orfali Brothers dirty refeed"
+    }
+  ]
 }
